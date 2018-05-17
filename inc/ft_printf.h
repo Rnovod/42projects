@@ -19,6 +19,7 @@
 # include <limits.h>
 # include <unistd.h>
 # include <locale.h>
+# include <stdlib.h>
 #include <stdio.h> ///////////// <-------------- DELETE
 #include <wchar.h> /////// ,___________
 #include <string.h>// ,<<<<<<<<<<<<<<<<<<
@@ -49,6 +50,7 @@ typedef	union	u_printf_arg
 	char			*pa_str;
 	wchar_t			*pa_wstr;
 	float			pa_float;
+	int				*pa_ptrint; 
 }				t_printf_arg;
 
 typedef	struct	s_data
@@ -88,5 +90,6 @@ void			ft_d(t_data *d);
 void			ft_c(t_data *d);
 void			ft_s(t_data *d);
 void			ft_f(t_data *d);
+void			ft_n(t_data *d);
 
 #endif

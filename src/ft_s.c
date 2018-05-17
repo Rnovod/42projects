@@ -28,7 +28,7 @@ void			ft_s(t_data *d)
 		d->pa_arg.pa_str = (char*)va_arg(d->argptr, char*);
 	if (d->pa_arg.pa_wstr == NULL && d->info.size == 3)
 		ft_printf_putstr(d, NULL);
-	else if (d->info.size == 3)
+	else if (d->info.size == 3 && MB_CUR_MAX > 1)
 		ft_putstr_unicode(d, d->pa_arg.pa_wstr);
 	else
 		ft_printf_putstr(d, d->pa_arg.pa_str);

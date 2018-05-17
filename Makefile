@@ -24,6 +24,7 @@ SRC			=	ft_printf.c \
 				ft_u.c \
 				ft_s.c \
 				ft_f.c \
+				ft_n.c \
 				ft_printf_itoa.c \
 				ft_printf_putchar.c \
 				ft_printf_putstr.c \

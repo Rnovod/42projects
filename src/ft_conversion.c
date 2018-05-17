@@ -46,6 +46,8 @@ inline	static	void	ft_conv_anoth(t_data *d, const char *restrict form)
 		ft_u(d, 2);
 	else if (form[d->form_i] == 'f' || form[d->form_i] == 'F')
 		ft_f(d);
+	else if (form[d->form_i] == 'n')
+		ft_n(d);
 	else
 		ft_printf_putchar(d, (wchar_t)form[d->form_i]);
 }
