@@ -22,17 +22,17 @@ int			ft_printf(const char *restrict format, ...)
 	d.ch = 0;
 	va_start(d.argptr, format);
 	va_copy(d.begin, d.argptr);
-	while (format[d.form_i] && d.error == 0)
+	while (format[d.form_i])
 	{
 		if (BUFF_SIZE <= d.buff_i)
 			ft_print_buff(&d);
-		else if (format[d.form_i] == '%')
+		if (format[d.form_i] == '%')
 			ft_specification(&d, format);
 		else
 			d.buff[d.buff_i++] = format[d.form_i++];
+		if (d.error == 1)
+			return (-1);
 	}
-	if (d.error == 1)
-		return (-1);
 	if (d.buff_i != 0)
 		ft_print_buff(&d);
 	va_end(d.argptr);

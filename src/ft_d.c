@@ -12,17 +12,33 @@
 
 #include "./../inc/ft_printf.h"
 
-void			ft_d(t_data *d)
+inline	static void		ft_d_arg(t_data *d)
+{
+	ft_get_arg(d, d->data_arg);
+	if (d->info.size == 0)
+		d->pa_arg.pa_int = (int)va_arg(d->param_arg, int);
+	else if (d->info.size == 1)
+		d->pa_arg.pa_int = (signed char)va_arg(d->param_arg, int);
+	else if (d->info.size == 2)
+		d->pa_arg.pa_int = (short)va_arg(d->param_arg, int);
+	else if (d->info.size == 3)
+		d->pa_arg.pa_int = (long)va_arg(d->param_arg, intmax_t);
+	else if (d->info.size == 4)
+		d->pa_arg.pa_int = (long long)va_arg(d->param_arg, intmax_t);
+	else if (d->info.size == 5)
+		d->pa_arg.pa_int = (intmax_t)va_arg(d->param_arg, intmax_t);
+	else if (d->info.size == 6)
+		d->pa_arg.pa_int = (ssize_t)va_arg(d->param_arg, intmax_t);
+}
+
+void					ft_d(t_data *d)
 {
 	uintmax_t	nbr;
 
 	if (d->data_arg != 0)
-	{
-		ft_get_arg(d, d->data_arg);
-		d->pa_arg.pa_int = va_arg(d->param_arg, intmax_t);
-	}
+		ft_d_arg(d);
 	else if (d->info.size == 0)
-		d->pa_arg.pa_int = va_arg(d->argptr, int);
+		d->pa_arg.pa_int = (int)va_arg(d->argptr, int);
 	else if (d->info.size == 1)
 		d->pa_arg.pa_int = (signed char)va_arg(d->argptr, int);
 	else if (d->info.size == 2)
@@ -36,6 +52,5 @@ void			ft_d(t_data *d)
 	else if (d->info.size == 6)
 		d->pa_arg.pa_int = (ssize_t)va_arg(d->argptr, intmax_t);
 	nbr = (d->pa_arg.pa_int > 0) ? d->pa_arg.pa_int : d->pa_arg.pa_int * -1;
-	ft_printf_itoa(d, nbr, d->pa_arg.pa_int < 0);
+	ft_printf_itoa(d, nbr, d->pa_arg.pa_int < 0, 10);
 }
-
