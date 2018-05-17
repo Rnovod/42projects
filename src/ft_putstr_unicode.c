@@ -30,7 +30,7 @@ inline	static	void	ft_putchar_unicode(t_data *d, int len, wchar_t charac)
 {
 	if (BUFF_SIZE <= (d->buff_i + len))
 		ft_print_buff(d);
-	if (len == 1)
+	if (len == 1 || MB_CUR_MAX == 1)
 		d->buff[d->buff_i++] = (char)charac;
 	else if (len == 2)
 	{
