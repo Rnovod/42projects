@@ -20,6 +20,7 @@
 # include <unistd.h>
 # include <locale.h>
 # include <stdlib.h>
+# include <math.h>
 #include <stdio.h> ///////////// <-------------- DELETE
 #include <wchar.h> /////// ,___________
 #include <string.h>// ,<<<<<<<<<<<<<<<<<<
@@ -49,7 +50,7 @@ typedef	union	u_printf_arg
 	intmax_t		pa_int;
 	char			*pa_str;
 	wchar_t			*pa_wstr;
-	float			pa_float;
+	long double		pa_ldouble;
 	int				*pa_ptrint; 
 }				t_printf_arg;
 
@@ -80,7 +81,7 @@ void			ft_printf_itoa(t_data *d, uintmax_t nbr, int sign, int base);
 void			ft_printf_putchar(t_data *d, wchar_t charac);
 void			ft_printf_putstr(t_data *d, char *str);
 void			ft_putstr_unicode(t_data *d, wchar_t *str);
-void			ft_itoa_float(t_data *d, float nbr, int sign);
+void			ft_itoa_double(t_data *d, long double nbr, int sign);
 
 int				ft_star(t_data *d, const char *restrict format);
 void			ft_get_arg(t_data *d, int arg);

@@ -14,16 +14,16 @@
 
 void			ft_f(t_data *d)
 {
-	float	nbr;
+	long double		nbr;
 
 	if (d->data_arg != 0)
 	{
 		ft_get_arg(d, d->data_arg);
-		d->pa_arg.pa_float = (float)va_arg(d->param_arg, double);
+		d->pa_arg.pa_ldouble = va_arg(d->param_arg, double);
 	}
 	else
-		d->pa_arg.pa_float = (float)va_arg(d->argptr, double);
-	nbr = (d->pa_arg.pa_float > 0) ? d->pa_arg.pa_float : d->pa_arg.pa_float * -1;
-	ft_itoa_float(d, nbr, d->pa_arg.pa_float > 0);
+		d->pa_arg.pa_ldouble = va_arg(d->argptr, double);
+	nbr = (d->pa_arg.pa_ldouble > 0) ? d->pa_arg.pa_ldouble : d->pa_arg.pa_ldouble * -1;
+	ft_itoa_double(d, nbr, d->pa_arg.pa_ldouble < 0);
 }
 

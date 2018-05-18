@@ -12,7 +12,7 @@
 
 #include "./../inc/ft_printf.h"
 
-inline	static	void	ft_put_precision(t_data *d, int dig, int base)
+inline	static	void	ft_put_prec(t_data *d, int dig, int base)
 {
 	register int		prec;
 
@@ -70,8 +70,7 @@ inline	static	int		ft_count_digits(t_data *d, uintmax_t nbr, int base)
 	return (dig);
 }
 
-inline	static	void	ft_put_width_precision(t_data *d, int dig,
-									int sign, int base)
+inline	static	void	ft_put_width_prec(t_data *d, int dig, int sign, int base)
 {
 	if (d->info.minus == 0 && d->info.width > 0 && !d->info.zero)
 		ft_put_width(d, dig, sign, base);
@@ -93,7 +92,7 @@ inline	static	void	ft_put_width_precision(t_data *d, int dig,
 	if (d->info.minus == 0 && d->info.width > 0 && d->info.zero)
 		ft_put_width(d, dig, sign, base);
 	if (d->info.prec > 0 && d->info.prec > dig)
-		ft_put_precision(d, dig, base);
+		ft_put_prec(d, dig, base);
 }
 
 void					ft_printf_itoa(t_data *d, uintmax_t nbr,
@@ -107,7 +106,7 @@ void					ft_printf_itoa(t_data *d, uintmax_t nbr,
 	str = ((d->info.up_case == 1 && base == 16) ?
 		"0123456789ABCDEF" : "0123456789abcdef");
 	dig = ft_count_digits(d, nbr, base);
-	ft_put_width_precision(d, dig, sign, base);
+	ft_put_width_prec(d, dig, sign, base);
 	if (BUFF_SIZE <= d->buff_i + dig)
 		ft_print_buff(d);
 	d->buff_i += dig - 1;
