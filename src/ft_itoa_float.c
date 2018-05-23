@@ -53,7 +53,7 @@ inline	static	void	ft_put_width(t_data *d, uint_fast32_t dig, int sign)
 	}
 }
 
-inline	static	void	ft_put_width_prec(t_data *d, uint_fast32_t dig, int sign)
+inline	static	void	ft_put_width_prec(t_data *d, uint_fast32_t dig, int_fast32_t sign)
 {
 	if (d->info.minus == 0 && d->info.width > 0 && !d->info.zero)
 		ft_put_width(d, dig, sign);
@@ -80,7 +80,7 @@ inline	static	size_t	ft_count_double(long double nbr)
 	return (len);
 }
 
-void					ft_itoa_double(t_data *d, long double nbr, int sign)
+void					ft_itoa_double(t_data *d, long double nbr, int_fast32_t sign)
 {
 	long double 		len_nbr;
 	uint_fast32_t		dig;
