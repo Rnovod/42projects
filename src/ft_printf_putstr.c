@@ -50,7 +50,6 @@ void							ft_printf_putstr(t_data *d, char *str)
 {
 	char			*begin;
 	int_fast64_t	len;
-	int				tmp;
 
 	if (!str)
 	{
@@ -59,7 +58,6 @@ void							ft_printf_putstr(t_data *d, char *str)
 	}
 	else
 		len = ft_strlen(str);
-	tmp = d->buff_i + len;
 	begin = str;
 	if (BUFF_SIZE <= d->buff_i)
 		ft_print_buff(d);
