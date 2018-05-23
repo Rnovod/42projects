@@ -12,7 +12,7 @@
 
 #include "./../inc/ft_printf.h"
 
-inline static	uint_fast32_t		ft_strlen(const char *str)
+inline static	int_fast32_t		ft_strlen(const char *str)
 {
 	char				*cp;
 	
@@ -23,7 +23,7 @@ inline static	uint_fast32_t		ft_strlen(const char *str)
 }
 
 
-inline	static	void		ft_put_width(t_data *d, uint_fast32_t len)
+inline	static	void		ft_put_width(t_data *d, int_fast32_t len)
 {
 	register int_fast32_t	width;
 	int_fast32_t			prec;
@@ -36,9 +36,9 @@ inline	static	void		ft_put_width(t_data *d, uint_fast32_t len)
 		c = '0';
 	if (width < 0)
 		width = width * -1;
-	if (prec < 0 || len < (uint_fast32_t)prec)
+	if (prec < 0 || len < prec)
 		width -= len;
-	else if (len > (uint_fast32_t)prec)
+	else if (len > prec)
 		width -= prec;
 	if (BUFF_SIZE <= d->buff_i + width)
 		ft_print_buff(d);
@@ -49,7 +49,7 @@ inline	static	void		ft_put_width(t_data *d, uint_fast32_t len)
 void						ft_printf_putstr(t_data *d, char *str)
 {
 	char			*begin;
-	uint_fast32_t	len;
+	int_fast32_t	len;
 
 	if (!str)
 	{

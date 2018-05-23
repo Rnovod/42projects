@@ -41,7 +41,9 @@ HEADER		=	$(INC_DIR)ft_printf.h
 
 HEAD_FLAGS	=	-I $(INC_DIR)
 
-CC_FLAGS	=	-Wall -Werror -Wextra
+CC_FLAGS	=	-Wall -Werror -Wextra -std=c11
+
+
 
 all: $(NAME)
 
