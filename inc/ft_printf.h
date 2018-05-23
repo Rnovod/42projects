@@ -22,8 +22,9 @@
 # include <stdlib.h>
 # include <math.h>
 # include <stdint.h>
-# include <time.h>
-# include <float.h>
+#include <stdio.h> ///////////// <-------------- DELETE
+#include <wchar.h> /////// ,___________
+#include <string.h>// ,<<<<<<<<<<<<<<<<<<
 
 typedef	struct	s_info
 {
