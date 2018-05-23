@@ -31,7 +31,7 @@ inline	static void		ft_u_arg(t_data *d)
 		d->pa_arg.pa_uint = (size_t)va_arg(d->param_arg, uint_fast64_t);
 }
 
-void			ft_u(t_data *d, int base)
+void			ft_u(t_data *d, int_fast32_t base)
 {
 	d->info.plus = 0;
 	d->info.space = 0;
