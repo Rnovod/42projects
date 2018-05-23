@@ -61,14 +61,12 @@ void							ft_printf_putstr(t_data *d, char *str)
 		len = ft_strlen(str);
 	tmp = d->buff_i + len;
 	begin = str;
+	if (BUFF_SIZE <= d->buff_i + len)
+		ft_print_buff(d);
 	if (d->info.minus == 0 && d->info.width > 0)
 		ft_put_width(d, len);
 	while (*str && (str - begin < d->info.prec || d->info.prec == -1))
-	{
-		if (BUFF_SIZE <= d->buff_i)
-			ft_print_buff(d);
 		d->buff[d->buff_i++] = *str++;
-	}
 	if (d->info.minus == 1 || d->info.width < 0)
 		ft_put_width(d, len);
 }
