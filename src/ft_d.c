@@ -22,18 +22,18 @@ inline	static void		ft_d_arg(t_data *d)
 	else if (d->info.size == 2)
 		d->pa_arg.pa_int = (short)va_arg(d->param_arg, int);
 	else if (d->info.size == 3)
-		d->pa_arg.pa_int = (long)va_arg(d->param_arg, intmax_t);
+		d->pa_arg.pa_int = (long)va_arg(d->param_arg, int_fast64_t);
 	else if (d->info.size == 4)
-		d->pa_arg.pa_int = (long long)va_arg(d->param_arg, intmax_t);
+		d->pa_arg.pa_int = (long long)va_arg(d->param_arg, int_fast64_t);
 	else if (d->info.size == 5)
-		d->pa_arg.pa_int = (intmax_t)va_arg(d->param_arg, intmax_t);
+		d->pa_arg.pa_int = (int_fast64_t)va_arg(d->param_arg, int_fast64_t);
 	else if (d->info.size == 6)
-		d->pa_arg.pa_int = (ssize_t)va_arg(d->param_arg, intmax_t);
+		d->pa_arg.pa_int = (ssize_t)va_arg(d->param_arg, int_fast64_t);
 }
 
 void					ft_d(t_data *d)
 {
-	uintmax_t	nbr;
+	uint_fast64_t	nbr;
 
 	if (d->data_arg != 0)
 		ft_d_arg(d);
@@ -44,13 +44,13 @@ void					ft_d(t_data *d)
 	else if (d->info.size == 2)
 		d->pa_arg.pa_int = (short)va_arg(d->argptr, int);
 	else if (d->info.size == 3)
-		d->pa_arg.pa_int = (long)va_arg(d->argptr, intmax_t);
+		d->pa_arg.pa_int = (long)va_arg(d->argptr, int_fast64_t);
 	else if (d->info.size == 4)
-		d->pa_arg.pa_int = (long long)va_arg(d->argptr, intmax_t);
+		d->pa_arg.pa_int = (long long)va_arg(d->argptr, int_fast64_t);
 	else if (d->info.size == 5)
-		d->pa_arg.pa_int = (intmax_t)va_arg(d->argptr, intmax_t);
+		d->pa_arg.pa_int = (int_fast64_t)va_arg(d->argptr, int_fast64_t);
 	else if (d->info.size == 6)
-		d->pa_arg.pa_int = (ssize_t)va_arg(d->argptr, intmax_t);
+		d->pa_arg.pa_int = (ssize_t)va_arg(d->argptr, int_fast64_t);
 	nbr = (d->pa_arg.pa_int > 0) ? d->pa_arg.pa_int : d->pa_arg.pa_int * -1;
 	ft_printf_itoa(d, nbr, d->pa_arg.pa_int < 0, 10);
 }

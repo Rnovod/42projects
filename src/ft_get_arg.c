@@ -12,12 +12,12 @@
 
 #include "./../inc/ft_printf.h"
 
-void			ft_get_arg(t_data *d, int arg)
+void			ft_get_arg(t_data *d, int_fast32_t arg)
 {
-	int			i;
+	int_fast32_t			i;
 
 	va_copy(d->param_arg, d->begin);
 	i = 0;
 	while (++i < arg)
-		va_arg(d->param_arg, int);
+		va_arg(d->param_arg, int_fast32_t);
 }

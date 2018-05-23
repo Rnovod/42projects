@@ -12,7 +12,7 @@
 
 #include "./../inc/ft_printf.h"
 
-inline	static	void	ft_uni_putchar(t_data *d, int len, wchar_t charac)
+inline	static	void	ft_uni_putchar(t_data *d, int_fast32_t len, wchar_t charac)
 {
 	if (BUFF_SIZE <= (d->buff_i + len))
 		ft_print_buff(d);
@@ -38,10 +38,10 @@ inline	static	void	ft_uni_putchar(t_data *d, int len, wchar_t charac)
 	}
 }
 
-inline	static	void	ft_put_width(t_data *d, int len)
+inline	static	void	ft_put_width(t_data *d, int_fast32_t len)
 {
-	register int	width;
-	char			c;
+	register int_fast32_t	width;
+	char					c;
 
 	width = d->info.width;
 	c = ' ';
@@ -61,7 +61,7 @@ inline	static	void	ft_put_width(t_data *d, int len)
 
 void					ft_printf_putchar(t_data *d, wchar_t charac)
 {
-	int		len;
+	int_fast32_t	len;
 
 	if (charac <= 127 || d->info.size != 3)
 		len = 1;

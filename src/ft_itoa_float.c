@@ -12,7 +12,24 @@
 
 #include "./../inc/ft_printf.h"
 
-inline	static	void	ft_put_width(t_data *d, int dig, int sign)
+long double		ft_ldpow(long double val, size_t pow)
+{
+	long double		res;
+
+	res = 1l;
+	while (pow)
+	{
+		if (pow & 1)
+		{
+			res *= val;
+		}
+		val *= val;
+		pow >>= 1;
+	}
+	return (res);
+}
+
+inline	static	void	ft_put_width(t_data *d, uint_fast32_t dig, int sign)
 {
 	register int	width;
 	char			c;
@@ -36,7 +53,7 @@ inline	static	void	ft_put_width(t_data *d, int dig, int sign)
 	}
 }
 
-inline	static	void	ft_put_width_prec(t_data *d, int dig, int sign)
+inline	static	void	ft_put_width_prec(t_data *d, uint_fast32_t dig, int sign)
 {
 	if (d->info.minus == 0 && d->info.width > 0 && !d->info.zero)
 		ft_put_width(d, dig, sign);
@@ -50,52 +67,52 @@ inline	static	void	ft_put_width_prec(t_data *d, int dig, int sign)
 		ft_put_width(d, dig, sign);
 }
 
-inline	static	size_t	ft_count_double(uintmax_t nbr)
+inline	static	size_t	ft_count_double(long double nbr)
 {
-	size_t	len;
+	size_t			len;
 
 	len = 1;
-	while (nbr /= 10)
-		len++;
+	while (nbr > 10.0l)
+	{
+		nbr /= 10.0l;
+		++len;
+	}
 	return (len);
 }
 
 void					ft_itoa_double(t_data *d, long double nbr, int sign)
 {
-	size_t				dig;
-	uintmax_t			integer;
-	register int		tmp;
-	int					calc;
+	long double 		len_nbr;
+	uint_fast32_t		dig;
+	uint_fast32_t		cp_dig;
 
-	integer = nbr;
-	dig = ft_count_double(integer);
-	nbr -= (long double)integer;
+	len_nbr = 1l;
+	dig = ft_count_double(nbr);
+	cp_dig = dig;
 	if (d->info.prec < 0)
 		d->info.prec = 6;
 	ft_put_width_prec(d, dig, sign);
-	d->buff_i += dig - 1;
-	tmp = d->buff_i++;
-	calc = d->buff_i - dig - 1;
-	while (calc < tmp)
+	nbr = nbr + 0.5l * ft_ldpow(1.0l / 10l, d->info.prec);
+	while (nbr / len_nbr >= 10.0l)
+		len_nbr *= 10.0l;
+	if (BUFF_SIZE <= d->buff_i + nbr)
+		ft_print_buff(d);
+	while (dig--)
 	{
-		d->buff[tmp--] = "0123456789"[integer % 10];
-		integer /= 10;
+		d->buff[d->buff_i++] = (nbr / len_nbr) + '0';
+		nbr -= (uint_fast64_t)(nbr / len_nbr) * len_nbr;
+		len_nbr /= 10.0l;
 	}
-	if (d->info.prec != 0)
+	d->buff[d->buff_i++] = '.';
+	nbr = (nbr - (uint_fast64_t)(nbr)) * 10.0l;
+	if (BUFF_SIZE <= d->buff_i + d->info.prec)
+		ft_print_buff(d);
+	while (d->info.prec > 0)
 	{
-		d->buff[d->buff_i++] = '.';
-		nbr *= pow(10, d->info.prec);
-		integer = round(nbr);
-		dig = ft_count_double(integer);
-		d->buff_i += dig - 1;
-		tmp = d->buff_i++;
-		calc = d->buff_i - dig - 1;
-		while (calc < tmp)
-		{
-			d->buff[tmp--] = "0123456789"[integer % 10];
-			integer /= 10;
-		}
+		d->buff[d->buff_i++] = (unsigned char)nbr + '0';
+		nbr = (nbr - (uint_fast64_t)(nbr)) * 10.0l;
+		--d->info.prec;
 	}
 	if (d->info.minus == 1 || d->info.width < 0)
-		ft_put_width(d, dig, sign);
+		ft_put_width(d, cp_dig, sign);
 }

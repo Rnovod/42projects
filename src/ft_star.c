@@ -12,10 +12,10 @@
 
 #include "./../inc/ft_printf.h"
 
-int				ft_star(t_data *d, const char *restrict format)
+int_fast32_t		ft_star(t_data *d, const char *restrict format)
 {
-	int		i;
-	int		nbr;
+	int_fast32_t		i;
+	int_fast32_t		nbr;
 
 	nbr = 0;
 	i = ++d->form_i;
@@ -27,8 +27,8 @@ int				ft_star(t_data *d, const char *restrict format)
 		if (nbr == 0)
 			return (0);
 		ft_get_arg(d, nbr);
-		return (va_arg(d->param_arg, int));
+		return (va_arg(d->param_arg, int_fast32_t));
 	}
 	else
-		return (va_arg(d->argptr, int));
+		return (va_arg(d->argptr, int_fast32_t));
 }

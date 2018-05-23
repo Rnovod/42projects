@@ -22,7 +22,7 @@ int			ft_printf(const char *restrict format, ...)
 	d.ch = 0;
 	va_start(d.argptr, format);
 	va_copy(d.begin, d.argptr);
-	while (format[d.form_i])
+	while (format && format[d.form_i])
 	{
 		if (BUFF_SIZE <= d.buff_i)
 			ft_print_buff(&d);

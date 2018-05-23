@@ -12,26 +12,25 @@
 
 #include "./../inc/ft_printf.h"
 
-inline	static	void	ft_put_prec(t_data *d, int dig, int base)
+inline	static	void	ft_put_prec(t_data *d, int_fast32_t dig, int_fast32_t base)
 {
-	register int		prec;
+	register int_fast32_t		prec;
 
 	prec = d->info.prec - dig;
 	if (d->info.sharp == 1 && base == 8 && d->pa_arg.pa_uint != 0)
 		--prec;
+	if (BUFF_SIZE <= d->buff_i + prec)
+		ft_print_buff(d);
 	while (prec-- > 0)
-	{
-		if (BUFF_SIZE <= d->buff_i)
-			ft_print_buff(d);
 		d->buff[d->buff_i++] = '0';
-	}
 }
 
-inline	static	void	ft_put_width(t_data *d, int dig, int sign, int base)
+inline	static	void	ft_put_width(t_data *d, int_fast32_t dig,
+					int_fast32_t sign, int_fast32_t base)
 {
-	register int	width;
-	char			c;
-	int				prec;
+	register int_fast32_t	width;
+	char					c;
+	int_fast32_t			prec;
 
 	prec = d->info.prec - dig - (d->info.sharp == 1 && base == 8);
 	width = d->info.width;
@@ -48,17 +47,15 @@ inline	static	void	ft_put_width(t_data *d, int dig, int sign, int base)
 		--width;
 	if (base == 16 && d->info.sharp == 1)
 		--width;
+	if (BUFF_SIZE <= d->buff_i + width)
+		ft_print_buff(d);
 	while (width-- > 0)
-	{
-		if (BUFF_SIZE <= d->buff_i)
-			ft_print_buff(d);
 		d->buff[d->buff_i++] = c;
-	}
 }
 
-inline	static	int		ft_count_digits(t_data *d, uintmax_t nbr, int base)
+inline	static	int_fast32_t	ft_count_digits(t_data *d, uint_fast64_t nbr, int_fast32_t base)
 {
-	register unsigned int	dig;
+	register uint_fast32_t	dig;
 
 	if ((nbr == 0 && d->info.prec == 0 && base != 8) ||
 		(base == 8 && d->info.sharp == 0 && nbr == 0 &&
@@ -95,13 +92,13 @@ inline	static	void	ft_put_width_prec(t_data *d, int dig, int sign, int base)
 		ft_put_prec(d, dig, base);
 }
 
-void					ft_printf_itoa(t_data *d, uintmax_t nbr,
-						int sign, int base)
+void					ft_printf_itoa(t_data *d, uint_fast64_t nbr,
+						int_fast32_t sign, int_fast32_t base)
 {
-	register int		tmp;
-	int					dig;
-	int					calc;
-	char				*str;
+	register int_fast32_t	tmp;
+	int_fast32_t			dig;
+	int_fast32_t			calc;
+	char					*str;
 
 	str = ((d->info.up_case == 1 && base == 16) ?
 		"0123456789ABCDEF" : "0123456789abcdef");

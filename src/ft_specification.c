@@ -14,7 +14,7 @@
 
 inline static	void ft_manage_flags(t_data *d, const char *restrict format)
 {
-	register unsigned int	i;
+	register uint_fast32_t	i;
 
 	i = d->form_i;
 	while (format[i] && (format[i] == ' ' ||
@@ -38,8 +38,8 @@ inline static	void ft_manage_flags(t_data *d, const char *restrict format)
 
 inline static	void ft_manage_digits(t_data *d, const char *restrict format)
 {
-	int						digit;
-	register unsigned int	i;
+	int_fast32_t			digit;
+	register uint_fast32_t	i;
 
 	i = d->form_i;
 	digit = 0;
@@ -60,8 +60,8 @@ inline static	void ft_manage_digits(t_data *d, const char *restrict format)
 
 inline static	void ft_manage_precision(t_data *d, const char *restrict format)
 {
-	register unsigned int	i;
-	int						prec;
+	register int_fast32_t	i;
+	int_fast32_t			prec;
 
 	i = ++d->form_i;
 	prec = 0;
