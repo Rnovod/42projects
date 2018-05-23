@@ -40,10 +40,12 @@ inline	static	void		ft_put_width(t_data *d, int_fast32_t len)
 		width -= len;
 	else if (len > prec)
 		width -= prec;
-	if (BUFF_SIZE <= d->buff_i + width)
-		ft_print_buff(d);
 	while (width-- > 0)
+	{
+		if (BUFF_SIZE <= d->buff_i)
+			ft_print_buff(d);
 		d->buff[d->buff_i++] = c;
+	}
 }
 
 void						ft_printf_putstr(t_data *d, char *str)
