@@ -41,30 +41,42 @@ HEADER		=	$(INC_DIR)ft_printf.h
 
 HEAD_FLAGS	=	-I $(INC_DIR)
 
-CC_FLAGS	=	-Wall -Werror -Wextra -std=c11
+CC_FLAGS	=	-Wall -Werror -Wextra -std=c99
 
+CC			=	gcc
 
+BG			=	"\033[32;1m"
+BR			=	"\033[31;1m"
 
 all: $(NAME)
 
+# main : main.c
+# 	@$(CC) main.c libftprintf.a
+# 	@echo "compile with main"
+# 	@./a.out
+
 $(NAME): $(OBJ)
-	ar rc $(NAME) $(OBJ)
-	ranlib $(NAME)
+	@ar rc $(NAME) $(OBJ)
+	@ranlib $(NAME)
+	@echo ${BG}"ft_printf is ready"
 
 $(OBJ): | $(OBJ_DIR)
 
 $(OBJ_DIR):
-	mkdir $(OBJ_DIR)
+	@mkdir $(OBJ_DIR)
 
 $(OBJ_DIR)%.o: %.c $(HEADER)
-	gcc -c $< -o $@ $(CC_FLAGS) $(HEAD_FLAGS)
+	@$(CC) -c $< -o $@ $(CC_FLAGS) $(HEAD_FLAGS)
+	@echo ${BG}"[✓] $<"
 
 clean:
-	rm -rf $(OBJ)
+	@rm -rf $(OBJ)
+	@echo ${BR}"[✗] clean"
 
 fclean: clean
-	rm -rf $(NAME)
-	rm -rf $(OBJ_DIR)
+	@rm -rf $(NAME)
+	@rm -rf $(OBJ_DIR)
+	@echo ${BR}"[✗] $(NAME)"
 
 re: fclean all
 
