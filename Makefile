@@ -43,29 +43,26 @@ HEAD_FLAGS	=	-I $(INC_DIR)
 
 CC_FLAGS	=	-Wall -Werror -Wextra
 
-CC			=	gcc
-
 all: $(NAME)
 
 $(NAME): $(OBJ)
-	@ar rc $(NAME) $(OBJ)
-	@ranlib $(NAME)
-	@echo ${BG}"ft_printf is ready"
+	ar rc $(NAME) $(OBJ)
+	ranlib $(NAME)
 
 $(OBJ): | $(OBJ_DIR)
 
 $(OBJ_DIR):
-	@mkdir $(OBJ_DIR)
+	mkdir $(OBJ_DIR)
 
 $(OBJ_DIR)%.o: %.c $(HEADER)
-	@$(CC) -c $< -o $@ $(CC_FLAGS) $(HEAD_FLAGS)
+	gcc -c $< -o $@ $(CC_FLAGS) $(HEAD_FLAGS)
 
 clean:
-	@rm -rf $(OBJ)
+	rm -rf $(OBJ)
 
 fclean: clean
-	@rm -rf $(NAME)
-	@rm -rf $(OBJ_DIR)
+	rm -rf $(NAME)
+	rm -rf $(OBJ_DIR)
 
 re: fclean all
 
