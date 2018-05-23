@@ -45,15 +45,7 @@ CC_FLAGS	=	-Wall -Werror -Wextra
 
 CC			=	gcc
 
-BG			=	"\033[32;1m"
-BR			=	"\033[31;1m"
-
 all: $(NAME)
-
-main : main.c
-	@$(CC) main.c libftprintf.a
-	@echo "compile with main"
-	@./a.out
 
 $(NAME): $(OBJ)
 	@ar rc $(NAME) $(OBJ)
@@ -67,16 +59,13 @@ $(OBJ_DIR):
 
 $(OBJ_DIR)%.o: %.c $(HEADER)
 	@$(CC) -c $< -o $@ $(CC_FLAGS) $(HEAD_FLAGS)
-	@echo ${BG}"[✓] $<"
 
 clean:
 	@rm -rf $(OBJ)
-	@echo ${BR}"[✗] clean"
 
 fclean: clean
 	@rm -rf $(NAME)
 	@rm -rf $(OBJ_DIR)
-	@echo ${BR}"[✗] $(NAME)"
 
 re: fclean all
 
