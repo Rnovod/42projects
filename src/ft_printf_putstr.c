@@ -51,14 +51,9 @@ void						ft_printf_putstr(t_data *d, char *str)
 	char			*begin;
 	int_fast32_t	len;
 
-	len = 0;
 	if (!str)
-	{
 		str = "(null)";
-		len = 6;
-	}
-	else
-		len = ft_strlen(str);
+	len = ft_strlen(str);
 	begin = str;
 	if (d->info.minus == 0 && d->info.width > 0)
 		ft_put_width(d, len);
