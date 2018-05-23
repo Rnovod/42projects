@@ -12,20 +12,18 @@
 
 #include "./../inc/ft_printf.h"
 
-inline static	uint_fast64_t		ft_strlen(char *str)
+inline static	int_fast64_t	ft_strlen(char *str)
 {
 	char			*cp;
-	uint_fast64_t	len; 
 	
 	cp = str;
 	while (*cp++)
 		;
-	len = cp - str - 1;
-	return (len);
+	return (cp - str - 1);
 }
 
 
-inline	static	void		ft_put_width(t_data *d, uint_fast64_t len)
+inline	static	void			ft_put_width(t_data *d, int_fast64_t len)
 {
 	register int_fast32_t	width;
 	int_fast32_t			prec;
@@ -38,9 +36,9 @@ inline	static	void		ft_put_width(t_data *d, uint_fast64_t len)
 		c = '0';
 	if (width < 0)
 		width = width * -1;
-	if (prec < 0 || len < (uint_fast64_t)prec)
+	if (prec < 0 || len < prec)
 		width -= len;
-	else if (len > (uint_fast64_t)prec)
+	else if (len > prec)
 		width -= prec;
 	if (BUFF_SIZE <= d->buff_i + width)
 		ft_print_buff(d);
@@ -48,10 +46,11 @@ inline	static	void		ft_put_width(t_data *d, uint_fast64_t len)
 		d->buff[d->buff_i++] = c;
 }
 
-void						ft_printf_putstr(t_data *d, char *str)
+void							ft_printf_putstr(t_data *d, char *str)
 {
 	char			*begin;
-	uint_fast64_t	len;
+	int_fast64_t	len;
+	int				tmp;
 
 	if (!str)
 	{
@@ -60,10 +59,11 @@ void						ft_printf_putstr(t_data *d, char *str)
 	}
 	else
 		len = ft_strlen(str);
+	tmp = d->buff_i + len;
 	begin = str;
 	if (d->info.minus == 0 && d->info.width > 0)
 		ft_put_width(d, len);
-	if (BUFF_SIZE <= d->buff_i + len)
+	if (BUFF_SIZE <= tmp)
 		ft_print_buff(d);
 	while (*str && (str - begin < d->info.prec || d->info.prec == -1))
 		d->buff[d->buff_i++] = *str++;
