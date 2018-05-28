@@ -62,7 +62,7 @@ inline	static	void			ft_handle_nan(t_data *d, long double nbr)
 		ft_put_width(d, 3);
 }
 
-void							ft_f(t_data *d)
+void							ft_e(t_data *d)
 {
 	long double		nbr;
 	va_list			*tmp;
