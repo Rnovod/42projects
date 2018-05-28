@@ -45,11 +45,8 @@ inline	static	void	ft_put_width(t_data *d, int_fast32_t len)
 
 	width = d->info.width;
 	c = ' ';
-	if (d->info.zero == 1 && d->info.prec <= 0 &&
-		width > 0 && !d->info.minus)
+	if (d->info.zero == 1 && d->info.prec <= 0 && !d->info.minus)
 		c = '0';
-	if (width < 0)
-		width *= -1;
 	width -= len;
 	while (width-- > 0)
 	{
@@ -73,9 +70,9 @@ void					ft_printf_putchar(t_data *d, wchar_t charac)
 		len = 4;
 	else
 		len = 0;
-	if (d->info.width > 0 && !d->info.minus)
+	if (!d->info.minus)
 		ft_put_width(d, len);
 	ft_uni_putchar(d, len, charac);
-	if (d->info.width < 0 || d->info.minus)
+	if (d->info.minus)
 		ft_put_width(d, len);
 }

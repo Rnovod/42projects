@@ -26,6 +26,7 @@ void		ft_set_flags_null(t_data *d)
 	d->info.l = 0;
 	d->info.j = 0;
 	d->info.z = 0;
+	d->info.Ld = 0;
 	d->info.up_case = 0;
 	d->info.adr = 0;
 	d->data_arg = 0;

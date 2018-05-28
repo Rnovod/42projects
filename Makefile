@@ -25,6 +25,7 @@ SRC			=	ft_printf.c \
 				ft_s.c \
 				ft_f.c \
 				ft_n.c \
+				ft_e.c \
 				ft_printf_itoa.c \
 				ft_printf_putchar.c \
 				ft_printf_putstr.c \
@@ -41,7 +42,7 @@ HEADER		=	$(INC_DIR)ft_printf.h
 
 HEAD_FLAGS	=	-I $(INC_DIR)
 
-CC_FLAGS	=	-Wall -Werror -Wextra -std=c99
+CC_FLAGS	=	-Wall -Werror -Wextra -std=c11
 
 CC			=	gcc
 
@@ -50,10 +51,10 @@ BR			=	"\033[31;1m"
 
 all: $(NAME)
 
-# main : main.c
-# 	@$(CC) main.c libftprintf.a
-# 	@echo "compile with main"
-# 	@./a.out
+main : main.c
+	@$(CC) main.c libftprintf.a
+	@echo "compile with main"
+	@./a.out
 
 $(NAME): $(OBJ)
 	@ar rc $(NAME) $(OBJ)

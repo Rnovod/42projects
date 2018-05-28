@@ -12,36 +12,18 @@
 
 #include "./../inc/ft_printf.h"
 
-long double		ft_ldpow(long double val, size_t pow)
-{
-	long double		res;
-
-	res = 1l;
-	while (pow)
-	{
-		if (pow & 1)
-		{
-			res *= val;
-		}
-		val *= val;
-		pow >>= 1;
-	}
-	return (res);
-}
-
 inline	static	void	ft_put_width(t_data *d, uint_fast32_t dig, int sign)
 {
 	register int	width;
 	char			c;
 	int				prec;
 
-	prec = d->info.prec - dig;
+	prec = d->info.prec;
 	width = d->info.width;
 	c = ' ';
 	if (d->info.zero && width > 0 && !d->info.minus)
 		c = '0';
-	width = width < 0 ? width * -1 - (dig + prec) :
-		width - (dig + prec);
+	width -= (dig + prec);
 	if (sign || d->info.plus ||
 		(d->info.space && !sign && !d->info.plus))
 		--width;
@@ -53,9 +35,9 @@ inline	static	void	ft_put_width(t_data *d, uint_fast32_t dig, int sign)
 	}
 }
 
-inline	static	void	ft_put_width_prec(t_data *d, uint_fast32_t dig, int_fast32_t sign)
+inline	static	void	ft_put_flags(t_data *d, uint_fast32_t dig, int_fast32_t sign)
 {
-	if (d->info.minus == 0 && d->info.width > 0 && !d->info.zero)
+	if (d->info.minus == 0 && !d->info.zero)
 		ft_put_width(d, dig, sign);
 	if (d->info.plus && !sign)
 		d->buff[d->buff_i++] = '+';
@@ -63,13 +45,13 @@ inline	static	void	ft_put_width_prec(t_data *d, uint_fast32_t dig, int_fast32_t 
 		d->buff[d->buff_i++] = '-';
 	else if (d->info.space && !sign && !d->info.plus)
 		d->buff[d->buff_i++] = ' ';
-	if (d->info.minus == 0 && d->info.width > 0 && d->info.zero)
+	if (d->info.minus == 0 && d->info.zero)
 		ft_put_width(d, dig, sign);
 }
 
-inline	static	size_t	ft_count_double(long double nbr)
+inline	static	uint_fast32_t	ft_count_double(long double nbr)
 {
-	size_t			len;
+	uint_fast32_t		len;
 
 	len = 1;
 	while (nbr > 10.0l)
@@ -80,39 +62,54 @@ inline	static	size_t	ft_count_double(long double nbr)
 	return (len);
 }
 
-void					ft_itoa_double(t_data *d, long double nbr, int_fast32_t sign)
+inline	static	void	ft_before_point(t_data *d, long double *nbr, uint_fast32_t dig)
 {
-	long double 		len_nbr;
-	uint_fast32_t		dig;
-	uint_fast32_t		cp_dig;
+	long double 		dec_size;
 
-	len_nbr = 1l;
-	dig = ft_count_double(nbr);
-	cp_dig = dig;
-	if (d->info.prec < 0)
-		d->info.prec = 6;
-	ft_put_width_prec(d, dig, sign);
-	nbr = nbr + 0.5l * ft_ldpow(1.0l / 10l, d->info.prec);
-	while (nbr / len_nbr >= 10.0l)
-		len_nbr *= 10.0l;
-	if (BUFF_SIZE <= d->buff_i + nbr)
-		ft_print_buff(d);
+	dec_size = 1l;
+	while (*nbr / dec_size >= 10.0l)
+		dec_size *= 10.0l;
 	while (dig--)
 	{
-		d->buff[d->buff_i++] = (nbr / len_nbr) + '0';
-		nbr -= (uint_fast64_t)(nbr / len_nbr) * len_nbr;
-		len_nbr /= 10.0l;
+		if (BUFF_SIZE <= d->buff_i)
+			ft_print_buff(d);
+		d->buff[d->buff_i++] = (unsigned char)(*nbr / dec_size) + '0';
+		*nbr -= (uint_fast64_t)(*nbr / dec_size) * dec_size;
+		dec_size /= 10.0l;
 	}
-	d->buff[d->buff_i++] = '.';
+}
+
+inline	static	void	ft_after_point(t_data *d, long double nbr)
+{
+	int				prec;
+
+	prec = d->info.prec;
 	nbr = (nbr - (uint_fast64_t)(nbr)) * 10.0l;
-	if (BUFF_SIZE <= d->buff_i + d->info.prec)
-		ft_print_buff(d);
-	while (d->info.prec > 0)
+	while (prec > 0)
 	{
+		if (BUFF_SIZE <= d->buff_i)
+			ft_print_buff(d);
 		d->buff[d->buff_i++] = (unsigned char)nbr + '0';
 		nbr = (nbr - (uint_fast64_t)(nbr)) * 10.0l;
-		--d->info.prec;
+		--prec;
 	}
-	if (d->info.minus == 1 || d->info.width < 0)
-		ft_put_width(d, cp_dig, sign);
+}
+
+void					ft_itoa_double(t_data *d, long double nbr, int_fast32_t sign)
+{
+	uint_fast32_t		dig;
+
+	if (d->info.prec > 0)
+		--d->info.width;
+	dig = ft_count_double(nbr);
+	ft_put_flags(d, dig, sign);
+	ft_before_point(d, &nbr, dig);
+	if (d->info.prec > 0 || d->info.sharp == 1)
+	{
+		d->buff[d->buff_i++] = '.';
+		if (d->info.prec > 0)
+			ft_after_point(d, nbr);
+	}
+	if (d->info.minus == 1)
+		ft_put_width(d, dig, sign);
 }

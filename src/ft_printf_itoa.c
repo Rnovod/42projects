@@ -19,10 +19,12 @@ inline	static	void	ft_put_prec(t_data *d, int_fast32_t dig, int_fast32_t base)
 	prec = d->info.prec - dig;
 	if (d->info.sharp == 1 && base == 8 && d->pa_arg.pa_uint != 0)
 		--prec;
-	if (BUFF_SIZE <= d->buff_i + prec)
-		ft_print_buff(d);
 	while (prec-- > 0)
+	{
+		if (BUFF_SIZE <= d->buff_i)
+			ft_print_buff(d);
 		d->buff[d->buff_i++] = '0';
+	}
 }
 
 inline	static	void	ft_put_width(t_data *d, int_fast32_t dig,
@@ -35,22 +37,23 @@ inline	static	void	ft_put_width(t_data *d, int_fast32_t dig,
 	prec = d->info.prec - dig - (d->info.sharp == 1 && base == 8);
 	width = d->info.width;
 	c = ' ';
-	if (d->info.zero && d->info.prec == -1 && width > 0 && !d->info.minus)
+	if (d->info.zero && d->info.prec == -1 && !d->info.minus)
 		c = '0';
 	if (prec < 0)
 		prec = 0;
-	width = width < 0 ? width * -1 - (dig + prec) :
-		width - (dig + prec);
+	width -= (dig + prec);
 	if (sign || d->info.plus || (d->info.sharp == 1 &&
 		(base == 8 || base == 16)) ||
 		(d->info.space && !sign && !d->info.plus))
 		--width;
 	if (base == 16 && d->info.sharp == 1)
 		--width;
-	if (BUFF_SIZE <= d->buff_i + width)
-		ft_print_buff(d);
 	while (width-- > 0)
+	{
+		if (BUFF_SIZE <= d->buff_i)
+			ft_print_buff(d);
 		d->buff[d->buff_i++] = c;
+	}
 }
 
 inline	static	int_fast32_t	ft_count_digits(t_data *d, uint_fast64_t nbr, int_fast32_t base)
@@ -69,7 +72,7 @@ inline	static	int_fast32_t	ft_count_digits(t_data *d, uint_fast64_t nbr, int_fas
 
 inline	static	void	ft_put_width_prec(t_data *d, int dig, int sign, int base)
 {
-	if (d->info.minus == 0 && d->info.width > 0 && !d->info.zero)
+	if (d->info.minus == 0 && !d->info.zero)
 		ft_put_width(d, dig, sign, base);
 	if (d->info.plus && !sign)
 		d->buff[d->buff_i++] = '+';
@@ -86,7 +89,7 @@ inline	static	void	ft_put_width_prec(t_data *d, int dig, int sign, int base)
 		else if (base != 8)
 			d->buff[d->buff_i++] = 'X';
 	}
-	if (d->info.minus == 0 && d->info.width > 0 && d->info.zero)
+	if (d->info.minus == 0 && d->info.zero)
 		ft_put_width(d, dig, sign, base);
 	if (d->info.prec > 0 && d->info.prec > dig)
 		ft_put_prec(d, dig, base);
@@ -114,6 +117,6 @@ void					ft_printf_itoa(t_data *d, uint_fast64_t nbr,
 		d->buff[tmp--] = str[nbr % base];
 		nbr /= base;
 	}
-	if (d->info.minus == 1 || d->info.width < 0)
+	if (d->info.minus == 1)
 		ft_put_width(d, dig, sign, base);
 }

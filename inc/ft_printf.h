@@ -40,6 +40,7 @@ typedef	struct	s_info
 	unsigned int	size:3;
 	unsigned int	h:8;
 	unsigned int	l:8;
+	unsigned int	Ld:1;
 	int_fast32_t	width;
 	int_fast32_t	prec;
 }				t_info;
@@ -59,17 +60,18 @@ typedef	struct	s_data
 {
 	uint_fast32_t	form_i;
 	int_fast32_t	buff_i;
+	va_list			argptr;
 	t_printf_arg	pa_arg;
 	t_info			info;
 	unsigned char	buff[BUFF_SIZE + 1];
 	unsigned int	error:1;
 	uint_fast32_t	ch;
 	uint_fast32_t	data_arg;
-	va_list			argptr;
 	va_list			begin;
 	va_list			param_arg;
 }				t_data;
 
+static	const	long double	const_inf = 1.0/0.0;
 
 int				ft_printf(const char *restrict format, ...);
 

@@ -48,12 +48,19 @@ inline	static	void	ft_conv_anoth(t_data *d, const char *restrict form)
 		ft_f(d);
 	else if (form[d->form_i] == 'n')
 		ft_n(d);
+	else if (form[d->form_i] == 'e' || form[d->form_i] == 'E')
+		ft_e(d);
 	else
 		ft_printf_putchar(d, (wchar_t)form[d->form_i]);
 }
 
 void					ft_conversion(t_data *d, const char *restrict form)
 {
+	if (d->info.width < 0)
+	{
+		d->info.width = -d->info.width;
+		d->info.minus = 1;
+	}
 	if (d->info.size != 0)
 		ft_choose_size(d);
 	if (form[d->form_i] == 'D' || form[d->form_i] == 'U' ||

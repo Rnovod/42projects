@@ -78,18 +78,18 @@ inline	static	void		ft_put_width(t_data *d, uint_fast32_t len)
 	width = d->info.width;
 	prec = d->info.prec;
 	c = ' ';
-	if (d->info.zero && prec <= 0 && width > 0 && !d->info.minus)
+	if (d->info.zero && prec <= 0 && !d->info.minus)
 		c = '0';
-	if (width < 0)
-		width = width * -1;
 	if (prec < 0 || len < (uint_fast32_t)prec)
 		width -= len;
 	else if (len >= (uint_fast32_t)prec)
 		width -= prec;
-	if (BUFF_SIZE <= d->buff_i + width)
-		ft_print_buff(d);
 	while (width-- > 0)
+	{
+		if (BUFF_SIZE <= d->buff_i)
+			ft_print_buff(d);
 		d->buff[d->buff_i++] = c;
+	}
 }
 
 void						ft_putstr_unicode(t_data *d, wchar_t *str)
@@ -100,7 +100,7 @@ void						ft_putstr_unicode(t_data *d, wchar_t *str)
 	wchar_t				*begin;
 
 	str_len = ft_pwcslen(d, str);
-	if (d->info.minus == 0 && d->info.width > 0)
+	if (d->info.minus == 0)
 		ft_put_width(d, str_len);
 	printed_len = 0;
 	begin = str;
@@ -112,6 +112,6 @@ void						ft_putstr_unicode(t_data *d, wchar_t *str)
 		if ((int)(printed_len += char_len) <= d->info.prec || d->info.prec == -1)
 			ft_putchar_unicode(d, char_len, *str++);
 	}
-	if (d->info.minus == 1 || d->info.width < 0)
+	if (d->info.minus == 1)
 		ft_put_width(d, str_len);
 }

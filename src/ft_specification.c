@@ -60,7 +60,7 @@ inline static	void ft_manage_digits(t_data *d, const char *restrict format)
 
 inline static	void ft_manage_precision(t_data *d, const char *restrict format)
 {
-	register int_fast32_t	i;
+	register uint_fast32_t	i;
 	int_fast32_t			prec;
 
 	i = ++d->form_i;
@@ -92,6 +92,8 @@ inline static	void ft_manage_size(t_data *d, const char *restrict format)
 		d->info.j = 1;
 	else if (format[d->form_i] == 'z')
 		d->info.z = 1;
+	else if (format[d->form_i] == 'L')
+		d->info.Ld = 1;
 	if (d->info.size == 0)
 		d->info.size = 7;
 	++d->form_i;
@@ -112,7 +114,8 @@ void			ft_specification(t_data *d, const char *restrict format)
 		else if (format[d->form_i] == '.')
 			ft_manage_precision(d, format);
 		else if (format[d->form_i] == 'h' || format[d->form_i] == 'l' ||
-			format[d->form_i] == 'z' || format[d->form_i] == 'j')
+			format[d->form_i] == 'z' || format[d->form_i] == 'j' ||
+			format[d->form_i] == 'L')
 			ft_manage_size(d, format);
 		else if (format[d->form_i] == '*')
 			d->info.width = ft_star(d, format);

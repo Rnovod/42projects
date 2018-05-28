@@ -19,5 +19,5 @@ void			ft_get_arg(t_data *d, int_fast32_t arg)
 	va_copy(d->param_arg, d->begin);
 	i = 0;
 	while (++i < arg)
-		va_arg(d->param_arg, int_fast32_t);
+		va_arg(d->param_arg, long int);
 }
