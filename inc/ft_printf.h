@@ -96,7 +96,7 @@ void			ft_d(t_data *d);
 void			ft_c(t_data *d);
 void			ft_s(t_data *d);
 void			ft_f(t_data *d);
-void			ft_e(t_data *d)
+void			ft_e(t_data *d);
 void			ft_n(t_data *d);
 
 #endif
