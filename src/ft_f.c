@@ -84,5 +84,6 @@ void							ft_f(t_data *d)
 	if (const_inf == nbr || nbr != nbr)
 		ft_handle_nan(d, nbr);
 	else
-		ft_itoa_double(d, nbr + 0.5l * ft_ldpow(1.0l / 10l, d->info.prec), d->pa_arg.pa_ldouble < 0);
+		ft_itoa_double(d, nbr + 0.5l *
+			ft_ldpow(1.0l / 10l, d->info.prec), d->pa_arg.pa_ldouble < 0);
 }

@@ -5,8 +5,8 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: rnovodra <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2018/05/28 19:03:07 by rnovodra          #+#    #+#             */
-/*   Updated: 2018/05/28 19:03:08 by rnovodra         ###   ########.fr       */
+/*   Created: 2018/05/29 17:08:47 by rnovodra          #+#    #+#             */
+/*   Updated: 2018/05/29 17:08:47 by rnovodra         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,9 +62,52 @@ inline	static	void			ft_handle_nan(t_data *d, long double nbr)
 		ft_put_width(d, 3);
 }
 
+inline	static	int_fast32_t	ft_calc_expo(t_data *d, long double *nbr)
+{
+	int_fast32_t	expo;
+
+	expo = 0;
+	while (*nbr >= 10.0l)
+	{
+		*nbr /= 10.0l;
+		++expo;
+	}
+	while (*nbr < 1.0l)
+	{
+		*nbr *= 10.0l;
+		--expo;
+	}
+	while ((*nbr += 0.5l * ft_ldpow(1.0l / 10l, d->info.prec)) >= 10l)
+	{
+		*nbr /= 10l;
+		++expo;
+	}
+	return (expo);
+}
+
+inline	static	void			ft_put_expo(t_data *d, int_fast32_t expo)
+{
+	if (BUFF_SIZE <= d->buff_i + 3)
+		ft_print_buff(d);
+	d->buff[d->buff_i++] = (d->info.up_case == 1) ? 'E' : 'e';
+	d->buff[d->buff_i++] = (expo > 0) ?  '+' : '-';
+	if (expo < 0)
+		expo = -expo;
+	if (expo < 10)
+		d->buff[d->buff_i++] = '0';
+	while (expo != 0)
+	{
+		if (BUFF_SIZE <= d->buff_i)
+			ft_print_buff(d);
+		d->buff[d->buff_i++] = expo % 10 + '0';
+		expo /= 10;
+	}
+}
+
 void							ft_e(t_data *d)
 {
 	long double		nbr;
+	int_fast32_t	expo;
 	va_list			*tmp;
 
 	if (d->data_arg != 0)
@@ -84,6 +127,10 @@ void							ft_e(t_data *d)
 	if (const_inf == nbr || nbr != nbr)
 		ft_handle_nan(d, nbr);
 	else
-		ft_itoa_double(d, nbr + 0.5l * ft_ldpow(1.0l / 10l, d->info.prec), d->pa_arg.pa_ldouble < 0);
+	{
+		expo = ft_calc_expo(d, &nbr);
+		ft_itoa_double(d, nbr, d->pa_arg.pa_ldouble < 0);
+		ft_put_expo(d, expo);
+	}
 }
 

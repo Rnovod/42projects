@@ -95,7 +95,8 @@ inline	static	void	ft_after_point(t_data *d, long double nbr)
 	}
 }
 
-void					ft_itoa_double(t_data *d, long double nbr, int_fast32_t sign)
+void					ft_itoa_double(t_data *d, long double nbr,
+						int_fast32_t sign)
 {
 	uint_fast32_t		dig;
 

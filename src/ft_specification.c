@@ -12,7 +12,7 @@
 
 #include "./../inc/ft_printf.h"
 
-inline static	void ft_manage_flags(t_data *d, const char *restrict format)
+inline	static	void	ft_manage_flags(t_data *d, const char *restrict format)
 {
 	register uint_fast32_t	i;
 
@@ -36,7 +36,7 @@ inline static	void ft_manage_flags(t_data *d, const char *restrict format)
 	d->form_i = i;
 }
 
-inline static	void ft_manage_digits(t_data *d, const char *restrict format)
+inline	static	void	ft_manage_digits(t_data *d, const char *restrict format)
 {
 	int_fast32_t			digit;
 	register uint_fast32_t	i;
@@ -58,7 +58,7 @@ inline static	void ft_manage_digits(t_data *d, const char *restrict format)
 	d->form_i = i;
 }
 
-inline static	void ft_manage_precision(t_data *d, const char *restrict format)
+inline	static	void	ft_manage_prec(t_data *d, const char *restrict format)
 {
 	register uint_fast32_t	i;
 	int_fast32_t			prec;
@@ -82,7 +82,7 @@ inline static	void ft_manage_precision(t_data *d, const char *restrict format)
 	d->info.prec = prec;
 }
 
-inline static	void ft_manage_size(t_data *d, const char *restrict format)
+inline	static	void	ft_manage_size(t_data *d, const char *restrict format)
 {
 	if (!d->info.z && !d->info.j && format[d->form_i] == 'h')
 		d->info.h++;
@@ -99,7 +99,7 @@ inline static	void ft_manage_size(t_data *d, const char *restrict format)
 	++d->form_i;
 }
 
-void			ft_specification(t_data *d, const char *restrict format)
+void					ft_specification(t_data *d, const char *restrict format)
 {
 	ft_set_flags_null(d);
 	++d->form_i;
@@ -112,7 +112,7 @@ void			ft_specification(t_data *d, const char *restrict format)
 		else if (format[d->form_i] >= '1' && format[d->form_i] <= '9')
 			ft_manage_digits(d, format);
 		else if (format[d->form_i] == '.')
-			ft_manage_precision(d, format);
+			ft_manage_prec(d, format);
 		else if (format[d->form_i] == 'h' || format[d->form_i] == 'l' ||
 			format[d->form_i] == 'z' || format[d->form_i] == 'j' ||
 			format[d->form_i] == 'L')

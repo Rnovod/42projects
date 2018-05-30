@@ -92,10 +92,10 @@ int_fast32_t	ft_star(t_data *d, const char *restrict format);
 void			ft_get_arg(t_data *d, int_fast32_t arg);
 
 void			ft_u(t_data *d, int_fast32_t base);
+void			ft_f(t_data *d);
 void			ft_d(t_data *d);
 void			ft_c(t_data *d);
 void			ft_s(t_data *d);
-void			ft_f(t_data *d);
 void			ft_e(t_data *d);
 void			ft_n(t_data *d);
 
