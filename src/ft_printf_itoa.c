@@ -100,7 +100,6 @@ void					ft_printf_itoa(t_data *d, uint_fast64_t nbr,
 {
 	register int_fast32_t	tmp;
 	int_fast32_t			dig;
-	int_fast32_t			calc;
 	char					*str;
 
 	str = ((d->info.up_case == 1 && base == 16) ?
@@ -109,14 +108,13 @@ void					ft_printf_itoa(t_data *d, uint_fast64_t nbr,
 	ft_put_width_prec(d, dig, sign, base);
 	if (BUFF_SIZE <= d->buff_i + dig)
 		ft_print_buff(d);
-	d->buff_i += dig - 1;
-	tmp = d->buff_i++;
-	calc = d->buff_i - dig - 1;
-	while (calc < tmp)
+	tmp = dig;
+	while (tmp--)
 	{
-		d->buff[tmp--] = str[nbr % base];
+		d->buff[d->buff_i + tmp] = str[nbr % base];
 		nbr /= base;
 	}
+	d->buff_i += dig;
 	if (d->info.minus == 1)
 		ft_put_width(d, dig, sign, base);
 }

@@ -12,6 +12,20 @@
 
 #include "./../inc/ft_printf.h"
 
+inline	static	int_fast32_t	ft_count_digits(t_data *d, uint_fast64_t nbr, int_fast32_t base)
+{
+	register uint_fast32_t	dig;
+
+	if ((nbr == 0 && d->info.prec == 0 && base != 8) ||
+		(base == 8 && d->info.sharp == 0 && nbr == 0 &&
+			d->info.prec == 0))
+		return (0);
+	dig = 1;
+	while (nbr /= base)
+		++dig;
+	return (dig);
+}
+
 inline	static	long double		ft_ldpow(long double nbr, size_t pow)
 {
 	long double		res;
@@ -87,21 +101,27 @@ inline	static	int_fast32_t	ft_calc_expo(t_data *d, long double *nbr)
 
 inline	static	void			ft_put_expo(t_data *d, int_fast32_t expo)
 {
+	uint_fast32_t	dig;
+	uint_fast32_t	tmp;
+
 	if (BUFF_SIZE <= d->buff_i + 3)
 		ft_print_buff(d);
 	d->buff[d->buff_i++] = (d->info.up_case == 1) ? 'E' : 'e';
-	d->buff[d->buff_i++] = (expo > 0) ?  '+' : '-';
+	d->buff[d->buff_i++] = (expo >= 0) ?  '+' : '-';
 	if (expo < 0)
 		expo = -expo;
 	if (expo < 10)
 		d->buff[d->buff_i++] = '0';
-	while (expo != 0)
+	dig = ft_count_digits(d, expo, 10);
+	tmp = dig;
+	while (dig--)
 	{
 		if (BUFF_SIZE <= d->buff_i)
 			ft_print_buff(d);
-		d->buff[d->buff_i++] = expo % 10 + '0';
+		d->buff[d->buff_i + dig] = expo % 10 + '0';
 		expo /= 10;
 	}
+	d->buff_i += tmp;
 }
 
 void							ft_e(t_data *d)
