@@ -5,8 +5,8 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: rnovodra <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2018/04/28 17:26:02 by rnovodra          #+#    #+#             */
-/*   Updated: 2018/04/28 17:26:03 by rnovodra         ###   ########.fr       */
+/*   Created: 2018/06/28 12:15:38 by rnovodra          #+#    #+#             */
+/*   Updated: 2018/06/28 12:15:39 by rnovodra         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,26 +15,27 @@
 int			ft_printf(const char *restrict format, ...)
 {
 	t_data		d;
+	va_list		arg;
 
+	if (!format)
+		return (-1);
 	d.buff_i = 0;
 	d.form_i = 0;
+	d.ret = 0;
 	d.error = 0;
-	d.ch = 0;
-	va_start(d.argptr, format);
-	va_copy(d.begin, d.argptr);
-	while (format && format[d.form_i])
+	va_start(arg, format);
+	va_copy(d.begin, arg);
+	while (format[d.form_i])
 	{
-		if (BUFF_SIZE <= d.buff_i)
-			ft_print_buff(&d);
 		if (format[d.form_i] == '%')
-			ft_specification(&d, format);
+			ft_spec(&d, format, &arg);
 		else
-			d.buff[d.buff_i++] = format[d.form_i++];
+			FT_PRINTF_BUFF_SIZE == d.buff_i ? ft_print_buff(&d) :
+			(d.buff[d.buff_i++] = format[d.form_i++]);
 		if (d.error == 1)
 			return (-1);
 	}
 	if (d.buff_i != 0)
 		ft_print_buff(&d);
-	va_end(d.argptr);
-	return (d.ch);
+	return (d.ret);
 }

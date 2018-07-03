@@ -1,23 +1,29 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_get_arg.c                                       :+:      :+:    :+:   */
+/*   ft_set_flags.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: rnovodra <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2018/05/07 18:19:12 by rnovodra          #+#    #+#             */
-/*   Updated: 2018/05/07 18:19:13 by rnovodra         ###   ########.fr       */
+/*   Created: 2018/06/28 15:11:01 by rnovodra          #+#    #+#             */
+/*   Updated: 2018/06/28 15:11:02 by rnovodra         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "./../inc/ft_printf.h"
 
-void			ft_get_arg(t_data *d, int_fast32_t arg)
+void		ft_set_flags(t_data *d)
 {
-	int_fast32_t			i;
-
-	va_copy(d->param_arg, d->begin);
-	i = 0;
-	while (++i < arg)
-		va_arg(d->param_arg, long int);
+	d->fl.sign = 0;
+	d->fl.zero = 0;
+	d->fl.minus = 0;
+	d->fl.plus = 0;
+	d->fl.space = 0;
+	d->fl.sharp = 0;
+	d->fl.long_db = 0;
+	d->fl.apostr = 0;
+	d->fl.size = 0;
+	d->width = 0;
+	d->prec = -1;
+	d->data_arg = 0;
 }

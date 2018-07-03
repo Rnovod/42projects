@@ -13,25 +13,20 @@
 NAME		=	libftprintf.a
 
 SRC			=	ft_printf.c \
-				ft_specification.c \
 				ft_print_buff.c \
-				ft_conversion.c \
-				ft_set_default.c \
+				ft_spec.c \
+				ft_set_flags.c \
+				ft_conv.c \
 				ft_star.c \
-				ft_get_arg.c \
-				ft_d.c \
-				ft_c.c \
-				ft_u.c \
-				ft_s.c \
-				ft_f.c \
-				ft_n.c \
-				ft_e.c \
+				ft_count_arg.c \
+				ft_int.c \
 				ft_printf_itoa.c \
-				ft_printf_putchar.c \
-				ft_printf_putstr.c \
-				ft_putstr_unicode.c \
-				ft_itoa_float.c
-
+				ft_count_dig.c \
+				ft_put_width.c \
+				ft_char.c \
+				ft_string.c \
+				ft_wstring.c
+				
 OBJ			=	$(addprefix $(OBJ_DIR), $(SRC:.c=.o))
 
 SRC_DIR		=	./src/

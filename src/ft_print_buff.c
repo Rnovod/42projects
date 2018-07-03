@@ -5,8 +5,8 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: rnovodra <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2018/05/01 19:19:48 by rnovodra          #+#    #+#             */
-/*   Updated: 2018/05/01 19:19:48 by rnovodra         ###   ########.fr       */
+/*   Created: 2018/06/28 13:55:23 by rnovodra          #+#    #+#             */
+/*   Updated: 2018/06/28 13:55:25 by rnovodra         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,6 @@
 void			ft_print_buff(t_data *d)
 {
 	write(1, d->buff, d->buff_i);
-	d->ch += d->buff_i;
+	d->ret += d->buff_i;
 	d->buff_i = 0;
 }

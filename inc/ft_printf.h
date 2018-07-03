@@ -12,7 +12,7 @@
 
 #ifndef FT_PRINTF_H
 # define FT_PRINTF_H
-# define BUFF_SIZE 4096
+# define FT_PRINTF_BUFF_SIZE 4096
 # include <stdarg.h>
 # include <stdint.h>
 # include <wchar.h>
@@ -26,77 +26,59 @@
 #include <wchar.h> /////// ,___________
 #include <string.h>// ,<<<<<<<<<<<<<<<<<<
 
-typedef	struct	s_info
+typedef	struct	s_flags
 {
 	unsigned int	zero:1;
 	unsigned int	minus:1;
 	unsigned int	plus:1;
 	unsigned int	sharp:1;
 	unsigned int	space:1;
-	unsigned int	up_case:1;
-	unsigned int	adr:1;
-	unsigned int	z:1;
-	unsigned int	j:1;
+	unsigned int	long_db:1;
+	unsigned int	apostr:1;
+	unsigned int	sign:1;
 	unsigned int	size:3;
-	unsigned int	h:8;
-	unsigned int	l:8;
-	unsigned int	Ld:1;
-	int_fast32_t	width;
-	int_fast32_t	prec;
-}				t_info;
-
-typedef	union	u_printf_arg
-{
-	wchar_t			pa_wchar;
-	uint_fast64_t	pa_uint;
-	int_fast64_t	pa_int;
-	char			*pa_str;
-	wchar_t			*pa_wstr;
-	long double		pa_ldouble;
-	int				*pa_ptrint;
-}				t_printf_arg;
+}				t_flags;
 
 typedef	struct	s_data
 {
-	uint_fast32_t	form_i;
-	int_fast32_t	buff_i;
-	va_list			argptr;
-	t_printf_arg	pa_arg;
-	t_info			info;
-	unsigned char	buff[BUFF_SIZE + 1];
-	unsigned int	error:1;
-	uint_fast32_t	ch;
-	uint_fast32_t	data_arg;
+	unsigned char	buff[FT_PRINTF_BUFF_SIZE];
+	size_t			buff_i;
+	size_t			form_i;
+	size_t			ret;
+	char			chr;
+	int				width;
+	int				prec;
+	t_flags			fl;
 	va_list			begin;
-	va_list			param_arg;
+	size_t			data_arg;
+	unsigned int	error:1;
 }				t_data;
-
-static	const	long double	const_inf = 1.0/0.0;
 
 int				ft_printf(const char *restrict format, ...);
 
-void			ft_set_flags_null(t_data *d);
+void			ft_spec(t_data *d, const char *f, va_list *arg);
 
 void			ft_print_buff(t_data *d);
-void			ft_specification(t_data *d, const char *restrict format);
-void			ft_conversion(t_data *d, const char *restrict format);
 
-void			ft_printf_itoa(t_data *d, uint_fast64_t nbr,
-				int_fast32_t sign, int_fast32_t base);
-void			ft_printf_putchar(t_data *d, wchar_t charac);
-void			ft_printf_putstr(t_data *d, char *str);
-void			ft_putstr_unicode(t_data *d, wchar_t *str);
-void			ft_itoa_double(t_data *d, long double nbr, int_fast32_t sign);
+void			ft_set_flags(t_data *d);
 
-int_fast32_t	ft_star(t_data *d, const char *restrict format);
-void			ft_get_arg(t_data *d, int_fast32_t arg);
+int				ft_star(t_data *d, const char *f, va_list *arg);
 
-void			ft_u(t_data *d, int_fast32_t base);
-void			ft_f(t_data *d);
-void			ft_d(t_data *d);
-void			ft_c(t_data *d);
-void			ft_s(t_data *d);
-void			ft_e(t_data *d);
-void			ft_n(t_data *d);
+void			ft_conv(t_data *d, char chr, va_list *arg);
+
+va_list			*ft_count_arg(t_data *d, int arg);
+
+void			ft_int(t_data *d, va_list *arg, int base);
+
+int				ft_count_dig(t_data *d, uintmax_t value, int base);
+
+void			ft_printf_itoa(t_data *d, uintmax_t value, int base, int len);
+
+void			ft_put_width(t_data *d, int val_len);
+
+void			ft_char(t_data *d, wchar_t value);
+
+void			ft_string(t_data *d, char *value);
+void			ft_wstring(t_data *d, wchar_t *value);
 
 #endif
