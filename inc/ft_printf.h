@@ -73,6 +73,7 @@ va_list			*ft_count_arg(t_data *d, int arg);
 void			ft_int(t_data *d, va_list *arg, int base);
 
 int				ft_count_dig(t_data *d, uintmax_t value, int base);
+int				ft_count_double(long double val);
 
 void			ft_printf_itoa(t_data *d, uintmax_t value, int base, int len);
 

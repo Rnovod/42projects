@@ -28,19 +28,6 @@ inline	static	long double	ft_get_val(t_data *d, va_list *arg)
 	return (val);
 }
 
-inline	static	uint_fast32_t	ft_count_double(long double val)
-{
-	uint_fast32_t		len;
-
-	len = 1;
-	while (val > 10.0l)
-	{
-		val /= 10.0l;
-		++len;
-	}
-	return (len);
-}
-
 inline	static	long double		ft_ldpow(long double val, size_t pow)
 {
 	long double		res;
@@ -75,6 +62,16 @@ inline	static	void			ft_handle_nan(t_data *d, long double val)
 		ft_put_width(d, 3);
 }
 
+inline	static	void			ft_put_sign(t_data *d)
+{
+	if (d->fl.plus && !d->fl.sign)
+		d->buff[d->buff_i++] = '+';
+	else if (d->fl.sign)
+		d->buff[d->buff_i++] = '-';
+	else if (d->fl.space && !d->fl.sign && !d->fl.plus)
+		d->buff[d->buff_i++] = ' ';
+}
+
 void							ft_float(t_data *d, va_list *arg)
 {
 	const	long double	val = ft_get_val(d, arg);
@@ -91,6 +88,10 @@ void							ft_float(t_data *d, va_list *arg)
 		--d->width;
 	val_len = ft_count_double(val);
 	if (!d->fl.minus && !d->fl.zero)
+		ft_put_width(d, val_len);
+	if (d->fl.plus || d->fl.minus || d->fl.space || d->fl.sign)
+		ft_put_sign(d);
+	if (!d->fl.minus && d->fl.zero)
 		ft_put_width(d, val_len);
 	ft_printf_dtoa(d, val + 0.5l *
 			ft_ldpow(1.0l / 10l, d->prec), val_len);

@@ -12,7 +12,7 @@
 
 #include "./../inc/ft_printf.h"
 
-int							ft_count_dig(t_data *d, uintmax_t value, int base)
+int		ft_count_dig(t_data *d, uintmax_t value, int base)
 {
 	register int	dig;
 
@@ -24,4 +24,17 @@ int							ft_count_dig(t_data *d, uintmax_t value, int base)
 	while (value /= base)
 		++dig;
 	return (dig);
+}
+
+int		ft_count_double(long double val)
+{
+	int		len;
+
+	len = 1;
+	while (val > 10.0l)
+	{
+		val /= 10.0l;
+		++len;
+	}
+	return (len);
 }
