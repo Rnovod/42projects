@@ -26,8 +26,8 @@ void		ft_conv(t_data *d, char chr, va_list *arg)
 	if (chr == 'D' || chr == 'U' ||
 		chr == 'O' || chr == 'p' || chr == 'C')
 		d->fl.size = 3;
-	if (chr == 'd' || chr == 'i' || chr == 'D' ||
-		chr == 'U' || chr == 'u')
+	if (chr == 'd' || chr == 'i' || chr == 'u' ||
+		chr == 'D' || chr == 'U')
 		ft_int(d, get_arg, 10);
 	else if (chr == 'o' || chr == 'O')
 		ft_int(d, get_arg, 8);
@@ -41,6 +41,10 @@ void		ft_conv(t_data *d, char chr, va_list *arg)
 		ft_string(d, va_arg(*get_arg, char*));
 	else if (chr == 'S' || chr == 's')
 		ft_wstring(d, va_arg(*get_arg, wchar_t*));
+	else if (chr ==  'n')
+		ft_write_chr(d, va_arg(*get_arg, int*));
+	else if (chr == 'f' || chr == 'F')
+		ft_float(d, get_arg);
 	else
 		ft_char(d, chr);
 }

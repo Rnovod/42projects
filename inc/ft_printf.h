@@ -54,6 +54,8 @@ typedef	struct	s_data
 	unsigned int	error:1;
 }				t_data;
 
+static	const	long double	const_inf = 1.0 / 0.0;
+
 int				ft_printf(const char *restrict format, ...);
 
 void			ft_spec(t_data *d, const char *f, va_list *arg);
@@ -80,5 +82,10 @@ void			ft_char(t_data *d, wchar_t value);
 
 void			ft_string(t_data *d, char *value);
 void			ft_wstring(t_data *d, wchar_t *value);
+
+void			ft_write_chr(t_data *d, int *dest);
+
+void			ft_float(t_data *d, va_list *arg);
+void			ft_printf_dtoa(t_data *d, long double val, int val_len);
 
 #endif

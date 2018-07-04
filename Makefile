@@ -25,7 +25,10 @@ SRC			=	ft_printf.c \
 				ft_put_width.c \
 				ft_char.c \
 				ft_string.c \
-				ft_wstring.c
+				ft_wstring.c \
+				ft_write_nbr_chr.c \
+				ft_float.c \
+				ft_printf_dtoa.c
 				
 OBJ			=	$(addprefix $(OBJ_DIR), $(SRC:.c=.o))
 
