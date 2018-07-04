@@ -36,10 +36,7 @@ void					ft_string(t_data *d, char *value)
 		val_len = ft_strlen(value);
 	if (d->prec >= 0 && d->prec < val_len)
 		val_len = d->prec;
-	else if (d->prec > val_len)
-		d->prec = -1;
-	if (d->prec == 0)
-		d->prec = -1;
+	d->prec = -1;
 	if (d->fl.minus == 0)
 		ft_put_width(d, val_len);
 	begin = value;

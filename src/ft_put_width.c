@@ -31,4 +31,5 @@ void	ft_put_width(t_data *d, int val_len)
 		FT_PRINTF_BUFF_SIZE == d->buff_i ? ft_print_buff(d) :
 		(d->buff[d->buff_i++] = c);
 	}
+	d->width = width;
 }

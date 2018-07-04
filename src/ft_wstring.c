@@ -100,10 +100,7 @@ void					ft_wstring(t_data *d, wchar_t *value)
 		val_len = ft_wstrlen(d, value);
 	if (d->prec >= 0 && d->prec < val_len)
 		val_len = d->prec;
-	else if (d->prec > val_len)
-		d->prec = -1;
-	if (d->prec == 0)
-		d->prec = -1;
+	d->prec = -1;
 	if (d->fl.minus == 0)
 		ft_put_width(d, val_len);
 	ft_putwstr(d, value, val_len);

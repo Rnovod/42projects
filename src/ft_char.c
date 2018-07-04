@@ -49,7 +49,7 @@ void					ft_char(t_data *d, wchar_t value)
 		val_len = 3;
 	else if (value <= 1114111)
 		val_len = 4;
-	if (d->prec == 0)
+	if (d->prec == 0 || d->prec > val_len)
 		d->prec = -1;
 	if (!d->fl.minus)
 		ft_put_width(d, val_len);
