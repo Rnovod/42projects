@@ -32,7 +32,8 @@ void			ft_g_float(t_data *d, long double val)
 		ft_expo_form(d, val);
 	else
 	{
-		d->prec = 0;
+		if (d->prec == 6)
+			d->prec = 0;
 		ft_float(d, val);
 	}
 }
