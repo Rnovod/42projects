@@ -31,6 +31,8 @@ inline	static	int		ft_count_prec(t_data *d, long double val)
 
 inline	static	void	ft_prepare_e(t_data *d, long double val)
 {
+	if ((uintmax_t)val)
+		d->prec--;
 	d->prec = ft_count_prec(d, val);
 	ft_expo_form(d, val);
 }
@@ -44,6 +46,8 @@ inline	static	void	ft_prepare_f(t_data *d, long double val)
 	downpow = 1l;
 	while ((tmp / downpow) >= 10l)
 		downpow *= 10l;
+	if ((uintmax_t)tmp)
+		d->prec--;
 	while (tmp >= 10l)
 	{
 		tmp -= ((uintmax_t)(tmp / downpow)) * downpow;
