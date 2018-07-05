@@ -15,7 +15,7 @@
 void			ft_handle_nan(t_data *d, long double val)
 {
 	char		*str;
-	const char	flag = d->chr == 'f' || d->chr == 'e';
+	const char	flag = d->chr == 'f' || d->chr == 'e' || d->chr == 'g';
 
 	d->prec = 0;
 	if ((d->fl.sign || d->fl.plus) && val == val)
