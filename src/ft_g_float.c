@@ -51,8 +51,8 @@ inline	static	void	ft_prepare_f(t_data *d, long double val)
 			--d->prec;
 		downpow /= 10l;
 	}
-	d->prec = ft_count_prec(d, val);
-	ft_float(d, val);
+	d->prec = ft_count_prec(d, tmp);
+	ft_float(d, tmp);
 }
 
 void					ft_g_float(t_data *d, long double val)
