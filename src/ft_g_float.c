@@ -22,12 +22,17 @@ void			ft_g_float(t_data *d, long double val)
 		ft_handle_nan(d, val);
 		return ;
 	}
+	if (d->prec == 0)
+		d->prec = 1;
 	if (d->prec == -1)
-		d->prec = 0;
+		d->prec = 6;
 	tmp = val;
 	expo = ft_calc_expo(d, &tmp);
 	if (expo < -4 || expo >= d->prec)
-		ft_float(d, val);
-	else
 		ft_expo_form(d, val);
+	else
+	{
+		d->prec = 0;
+		ft_float(d, val);
+	}
 }
