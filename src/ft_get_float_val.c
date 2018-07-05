@@ -1,35 +1,35 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_put_width.c                                     :+:      :+:    :+:   */
+/*   ft_get_float_val.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: rnovodra <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2018/06/30 13:47:06 by rnovodra          #+#    #+#             */
-/*   Updated: 2018/06/30 13:47:07 by rnovodra         ###   ########.fr       */
+/*   Created: 2018/07/05 12:40:07 by rnovodra          #+#    #+#             */
+/*   Updated: 2018/07/05 12:40:10 by rnovodra         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "./../inc/ft_printf.h"
 
-void	ft_put_width(t_data *d, int val_len)
+long double		ft_get_float_val(t_data *d, va_list *arg)
 {
-	char	c;
-	int		width;
-	int		prec;
+	long double	val;
 
-	prec = d->prec - val_len;
-	c = ' ';
-	width = d->width;
-	if (d->fl.zero && d->prec < 0 && !d->fl.minus)
-		c = '0';
-	if (prec < 0 || val_len == 0)
-		prec = 0;
-	width -= (val_len + prec);
-	while (width-- > 0)
+	d->fl.zero = 0;
+	d->fl.sharp = 0;
+	if (d->prec < 0)
+		d->prec = 6;
+	if (d->prec > 0)
+		d->width -= 2;
+	if (d->fl.long_db)
+		val = va_arg(*arg, long double);
+	else
+		val = va_arg(*arg, double);
+	if (val < 0)
 	{
-		FT_PRINTF_BUFF_SIZE == d->buff_i ? ft_print_buff(d) :
-		(d->buff[d->buff_i++] = c);
+		d->fl.sign = 1;
+		return (-val);
 	}
-	d->width = width;
+	return (val);
 }

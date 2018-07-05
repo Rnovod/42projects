@@ -12,7 +12,25 @@
 
 #include "./../inc/ft_printf.h"
 
-void		ft_conv(t_data *d, char chr, va_list *arg)
+inline	static	void	ft_conv_anoth(t_data *d, char chr, va_list *get_arg)
+{
+	if (chr == 'x' || chr == 'X' || chr == 'p')
+		ft_int(d, get_arg, 16);
+	else if (chr == 'o' || chr == 'O')
+		ft_int(d, get_arg, 8);
+	else if (chr == 'n')
+		ft_write_chr(d, va_arg(*get_arg, int*));
+	else if (chr == 'f' || chr == 'F')
+		ft_float(d, get_arg);
+	else if (chr == 'b')
+		ft_int(d, get_arg, 2);
+	else if (chr == 'e' || chr == 'E')
+		ft_expo_form(d, get_arg);
+	else
+		ft_char(d, chr);
+}
+
+void					ft_conv(t_data *d, char chr, va_list *arg)
 {
 	va_list		*get_arg;
 
@@ -29,22 +47,12 @@ void		ft_conv(t_data *d, char chr, va_list *arg)
 	if (chr == 'd' || chr == 'i' || chr == 'u' ||
 		chr == 'D' || chr == 'U')
 		ft_int(d, get_arg, 10);
-	else if (chr == 'o' || chr == 'O')
-		ft_int(d, get_arg, 8);
-	else if (chr == 'x' || chr == 'X' || chr == 'p')
-		ft_int(d, get_arg, 16);
-	else if (chr == 'b')
-		ft_int(d, get_arg, 2);
 	else if (chr == 'c' || chr == 'C')
 		ft_char(d, va_arg(*get_arg, int));
 	else if (chr == 's' && d->fl.size != 3)
 		ft_string(d, va_arg(*get_arg, char*));
 	else if (chr == 'S' || chr == 's')
 		ft_wstring(d, va_arg(*get_arg, wchar_t*));
-	else if (chr ==  'n')
-		ft_write_chr(d, va_arg(*get_arg, int*));
-	else if (chr == 'f' || chr == 'F')
-		ft_float(d, get_arg);
 	else
-		ft_char(d, chr);
+		ft_conv_anoth(d, chr, get_arg);
 }

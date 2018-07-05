@@ -12,10 +12,10 @@
 
 #include "./../inc/ft_printf.h"
 
-inline static	int		ft_strlen(char *str)
+inline	static	int		ft_strlen(char *str)
 {
 	unsigned char	*cp;
-	
+
 	cp = (unsigned char*)str;
 	while (*cp++)
 		;

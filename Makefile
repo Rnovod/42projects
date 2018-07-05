@@ -22,13 +22,17 @@ SRC			=	ft_printf.c \
 				ft_int.c \
 				ft_printf_itoa.c \
 				ft_count_dig.c \
-				ft_put_width.c \
+				ft_width_prec_sign.c \
 				ft_char.c \
 				ft_string.c \
 				ft_wstring.c \
 				ft_write_nbr_chr.c \
 				ft_float.c \
-				ft_printf_dtoa.c
+				ft_printf_dtoa.c \
+				ft_handle_nan.c \
+				ft_ldpow.c \
+				ft_get_float_val.c \
+				ft_expo_form.c \
 				
 OBJ			=	$(addprefix $(OBJ_DIR), $(SRC:.c=.o))
 

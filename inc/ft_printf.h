@@ -54,8 +54,6 @@ typedef	struct	s_data
 	unsigned int	error:1;
 }				t_data;
 
-static	const	long double	const_inf = 1.0 / 0.0;
-
 int				ft_printf(const char *restrict format, ...);
 
 void			ft_spec(t_data *d, const char *f, va_list *arg);
@@ -78,6 +76,8 @@ int				ft_count_double(long double val);
 void			ft_printf_itoa(t_data *d, uintmax_t value, int base, int len);
 
 void			ft_put_width(t_data *d, int val_len);
+void			ft_put_prec(t_data *d, uintmax_t val, int len, int base);
+void			ft_put_sign(t_data *d, uintmax_t val, int base);
 
 void			ft_char(t_data *d, wchar_t value);
 
@@ -87,6 +87,13 @@ void			ft_wstring(t_data *d, wchar_t *value);
 void			ft_write_chr(t_data *d, int *dest);
 
 void			ft_float(t_data *d, va_list *arg);
+void			ft_expo_form(t_data *d, va_list *arg);
 void			ft_printf_dtoa(t_data *d, long double val, int val_len);
+
+void			ft_handle_nan(t_data *d, long double val);
+
+long double		ft_ldpow(long double val, size_t pow);
+
+long double		ft_get_float_val(t_data *d, va_list *arg);
 
 #endif

@@ -12,40 +12,7 @@
 
 #include "./../inc/ft_printf.h"
 
-inline	static	void	ft_put_sign_pref(t_data *d, uintmax_t val, int base)
-{
-	if (d->fl.plus && !d->fl.sign)
-		d->buff[d->buff_i++] = '+';
-	else if (d->fl.sign && base != 16 && base != 8)
-		d->buff[d->buff_i++] = '-';
-	else if (d->fl.space && !d->fl.sign && !d->fl.plus)
-		d->buff[d->buff_i++] = ' ';
-	if ((d->fl.sharp == 1 && (base == 8 || base == 16) &&
-		val != 0) || d->chr == 'p')
-	{
-		d->buff[d->buff_i++] = '0';
-		if ((base == 16 && d->chr == 'x') || d->chr == 'p')
-			d->buff[d->buff_i++] = 'x';
-		else if (base != 8)
-			d->buff[d->buff_i++] = 'X';
-	}
-}
-
-inline	static	void	ft_put_prec(t_data *d, uintmax_t val, int len, int base)
-{
-	register int		prec;
-
-	prec = d->prec - len;
-	if (d->fl.sharp == 1 && base == 8 && val != 0)
-		--prec;
-	while (prec-- > 0)
-	{
-		FT_PRINTF_BUFF_SIZE == d->buff_i ? ft_print_buff(d) :
-		(d->buff[d->buff_i++] = '0');
-	}
-}
-
-inline	static	uintmax_t	ft_get_sign_val(t_data *d, va_list *arg)
+inline	static	uintmax_t	ft_get_sval(t_data *d, va_list *arg)
 {
 	intmax_t		val;
 
@@ -71,7 +38,7 @@ inline	static	uintmax_t	ft_get_sign_val(t_data *d, va_list *arg)
 	return (val);
 }
 
-inline	static	uintmax_t	ft_get_unsign_val(t_data *d, va_list *arg)
+inline	static	uintmax_t	ft_get_uval(t_data *d, va_list *arg)
 {
 	d->fl.plus = 0;
 	d->fl.space = 0;
@@ -91,12 +58,21 @@ inline	static	uintmax_t	ft_get_unsign_val(t_data *d, va_list *arg)
 		return ((size_t)va_arg(*arg, uintmax_t));
 }
 
+inline	static	uintmax_t	ft_write_data(t_data *d, va_list *arg)
+{
+	if (d->chr == 'D' || d->chr == 'd' || d->chr == 'i')
+		return (ft_get_sval(d, arg));
+	else
+		return (ft_get_uval(d, arg));
+}
+
 void						ft_int(t_data *d, va_list *arg, int base)
 {
-	const	uintmax_t	val = (d->chr == 'D' || d->chr == 'd' || d->chr == 'i') ?
-						ft_get_sign_val(d, arg) : ft_get_unsign_val(d, arg);
-	const	int			val_len = ft_count_dig(d, val, base);
+	uintmax_t	val;
+	int			val_len;
 
+	val = ft_write_data(d, arg);
+	val_len = ft_count_dig(d, val, base);
 	if (d->fl.zero && d->prec >= 0)
 		d->fl.zero = 0;
 	if (d->fl.sign || d->fl.plus || d->fl.space ||
@@ -108,7 +84,7 @@ void						ft_int(t_data *d, va_list *arg, int base)
 		ft_put_width(d, val_len);
 	if (d->fl.plus || d->fl.minus || d->fl.space || d->fl.sign ||
 		(d->fl.sharp && (base == 8 || base == 16)) || d->chr == 'p')
-		ft_put_sign_pref(d, val, base);
+		ft_put_sign(d, val, base);
 	if (d->width > 0 && d->fl.minus == 0 && d->fl.zero)
 		ft_put_width(d, val_len);
 	if (d->prec > 0 && d->prec > val_len)

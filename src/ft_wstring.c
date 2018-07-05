@@ -71,7 +71,7 @@ inline static	int		ft_wstrlen(t_data *d, wchar_t *str)
 	return (str_len);
 }
 
-inline	static	void	ft_putwstr(t_data *d, wchar_t *str, int	str_len)
+inline	static	void	ft_putwstr(t_data *d, wchar_t *str, int str_len)
 {
 	wchar_t		*begin;
 	int			char_len;
@@ -107,4 +107,3 @@ void					ft_wstring(t_data *d, wchar_t *value)
 	if (d->fl.minus == 1)
 		ft_put_width(d, val_len);
 }
-

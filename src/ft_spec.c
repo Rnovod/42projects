@@ -102,8 +102,9 @@ void					ft_spec(t_data *d, const char *f, va_list *arg)
 	ft_set_flags(d);
 	while (f[d->form_i])
 	{
-		if (f[d->form_i] == ' ' || f[d->form_i] == '0' || f[d->form_i] == '-' ||
-			f[d->form_i] == '#' || f[d->form_i] == '+' || f[d->form_i] == '\'' ||
+		if (f[d->form_i] == ' ' || f[d->form_i] == '0' ||
+			f[d->form_i] == '-' || f[d->form_i] == '#' ||
+			f[d->form_i] == '+' || f[d->form_i] == '\'' ||
 			f[d->form_i] == 'L')
 			ft_mng_flags(d, f);
 		else if (f[d->form_i] >= '1' && f[d->form_i] <= '9')
