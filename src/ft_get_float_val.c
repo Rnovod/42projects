@@ -18,10 +18,6 @@ long double		ft_get_float_val(t_data *d, va_list *arg)
 
 	d->fl.zero = 0;
 	d->fl.sharp = 0;
-	if (d->prec < 0)
-		d->prec = 6;
-	if (d->prec > 0)
-		d->width -= 2;
 	if (d->fl.long_db)
 		val = va_arg(*arg, long double);
 	else

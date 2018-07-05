@@ -21,11 +21,13 @@ inline	static	void	ft_conv_anoth(t_data *d, char chr, va_list *get_arg)
 	else if (chr == 'n')
 		ft_write_chr(d, va_arg(*get_arg, int*));
 	else if (chr == 'f' || chr == 'F')
-		ft_float(d, get_arg);
+		ft_float(d, ft_get_float_val(d, get_arg));
+	else if (chr == 'e' || chr == 'E')
+		ft_expo_form(d, ft_get_float_val(d, get_arg));
+	else if (chr == 'g' || chr == 'G')
+		ft_g_float(d, ft_get_float_val(d, get_arg));
 	else if (chr == 'b')
 		ft_int(d, get_arg, 2);
-	else if (chr == 'e' || chr == 'E')
-		ft_expo_form(d, get_arg);
 	else
 		ft_char(d, chr);
 }

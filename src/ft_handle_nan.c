@@ -14,11 +14,11 @@
 
 void			ft_handle_nan(t_data *d, long double val)
 {
-	char	*str;
-	char	flag;
+	char		*str;
+	const char	flag = d->chr == 'f' || d->chr == 'e';
 
-	flag = d->chr == 'f' || d->chr == 'e';
-	if (d->fl.sign)
+	d->prec = 0;
+	if ((d->fl.sign || d->fl.plus) && val == val)
 		d->width--;
 	if (INFINITY == val)
 		str = flag ? "inf" : "INF";
@@ -28,6 +28,8 @@ void			ft_handle_nan(t_data *d, long double val)
 		ft_put_width(d, 3);
 	if (d->fl.sign)
 		d->buff[d->buff_i++] = '-';
+	if (d->fl.plus && !d->fl.sign && val == val)
+		d->buff[d->buff_i++] = '+';
 	while (*str)
 	{
 		FT_PRINTF_BUFF_SIZE == d->buff_i ? ft_print_buff(d) :

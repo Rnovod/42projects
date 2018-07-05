@@ -33,6 +33,7 @@ SRC			=	ft_printf.c \
 				ft_ldpow.c \
 				ft_get_float_val.c \
 				ft_expo_form.c \
+				ft_g_float.c \
 				
 OBJ			=	$(addprefix $(OBJ_DIR), $(SRC:.c=.o))
 

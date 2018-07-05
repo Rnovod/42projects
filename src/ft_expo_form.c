@@ -12,26 +12,28 @@
 
 #include "./../inc/ft_printf.h"
 
-inline	static	int				ft_calc_expo(t_data *d, long double *nbr)
+int						ft_calc_expo(t_data *d, long double *val)
 {
 	int		expo;
 	int		check;
 
 	expo = 0;
-	while (*nbr >= 10.0l)
+	if (*val == INFINITY)
+		return (0);
+	while (*val >= 10.0l)
 	{
-		*nbr /= 10.0l;
+		*val /= 10.0l;
 		++expo;
 	}
 	check = 0;
-	while (*nbr < 1.0l && ++check < 1000)
+	while (*val < 1.0l && ++check < 1000)
 	{
-		*nbr *= 10.0l;
+		*val *= 10.0l;
 		--expo;
 	}
-	while ((*nbr += 0.5l * ft_ldpow(0.1l, d->prec)) >= 10l)
+	while ((*val += 0.5l * ft_ldpow(0.1l, d->prec)) >= 10l)
 	{
-		*nbr /= 10l;
+		*val /= 10l;
 		++expo;
 	}
 	if (check == 1000)
@@ -39,7 +41,7 @@ inline	static	int				ft_calc_expo(t_data *d, long double *nbr)
 	return (expo);
 }
 
-inline	static	void			ft_put_expo(t_data *d, int expo, int expo_len)
+inline	static	void	ft_put_expo(t_data *d, int expo, int expo_len)
 {
 	int		i;
 
@@ -61,21 +63,21 @@ inline	static	void			ft_put_expo(t_data *d, int expo, int expo_len)
 	}
 }
 
-void							ft_expo_form(t_data *d, va_list *arg)
+void					ft_expo_form(t_data *d, long double val)
 {
-	long double	val;
-	int			expo;
+	const int	expo = ft_calc_expo(d, &val);
+	const int	expo_len = ft_count_dig(NULL, expo < 0 ? -expo : expo, 10);
 	int			val_len;
-	int			expo_len;
 
-	val = ft_get_float_val(d, arg);
 	if (val != val || val == INFINITY)
 	{
 		ft_handle_nan(d, val);
 		return ;
 	}
-	expo = ft_calc_expo(d, &val);
-	expo_len = ft_count_dig(d, expo < 0 ? -expo : expo, 10);
+	if (d->prec < 0)
+		d->prec = 6;
+	if (d->prec > 0)
+		d->width -= 2;
 	val_len = ft_count_double(val);
 	d->width -= 2 + (expo_len < 10 ? 2 : expo_len);
 	if (!d->fl.minus && !d->fl.zero)

@@ -1,40 +1,31 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_count_dig.c                                     :+:      :+:    :+:   */
+/*   ft_g_float.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: rnovodra <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2018/06/30 13:25:35 by rnovodra          #+#    #+#             */
-/*   Updated: 2018/06/30 13:25:36 by rnovodra         ###   ########.fr       */
+/*   Created: 2018/07/05 15:15:29 by rnovodra          #+#    #+#             */
+/*   Updated: 2018/07/05 15:15:30 by rnovodra         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "./../inc/ft_printf.h"
 
-int		ft_count_dig(t_data *d, uintmax_t value, int base)
+void			ft_g_float(t_data *d, long double val)
 {
-	register int	dig;
+	int		expo;
 
-	if (d && ((value == 0 && d->prec == 0 && base != 8) ||
-		(base == 8 && d->fl.sharp == 0 && value == 0 &&
-			d->prec == 0)))
-		return (0);
-	dig = 1;
-	while (value /= base)
-		++dig;
-	return (dig);
-}
-
-int		ft_count_double(long double val)
-{
-	int		len;
-
-	len = 1;
-	while (val > 10.0l)
+	if (val != val || val == INFINITY)
 	{
-		val /= 10.0l;
-		++len;
+		ft_handle_nan(d, val);
+		return ;
 	}
-	return (len);
+	if (d->prec == 0)
+		d->prec = 1;
+	expo = ft_calc_expo(d, &val);
+	if (expo < -4 || expo >= d->prec)
+		ft_float(d, val);
+	else
+		ft_expo_form(d, val);
 }

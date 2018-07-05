@@ -12,9 +12,8 @@
 
 #include "./../inc/ft_printf.h"
 
-void							ft_float(t_data *d, va_list *arg)
+void			ft_float(t_data *d, long double val)
 {
-	const	long double	val = ft_get_float_val(d, arg);
 	int					val_len;
 
 	if (val != val || val == INFINITY)
@@ -22,6 +21,10 @@ void							ft_float(t_data *d, va_list *arg)
 		ft_handle_nan(d, val);
 		return ;
 	}
+	if (d->prec < 0)
+		d->prec = 6;
+	if (d->prec > 0)
+		d->width -= 2;
 	val_len = ft_count_double(val);
 	if (!d->fl.minus && !d->fl.zero)
 		ft_put_width(d, val_len);

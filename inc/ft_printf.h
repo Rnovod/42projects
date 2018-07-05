@@ -86,13 +86,16 @@ void			ft_wstring(t_data *d, wchar_t *value);
 
 void			ft_write_chr(t_data *d, int *dest);
 
-void			ft_float(t_data *d, va_list *arg);
-void			ft_expo_form(t_data *d, va_list *arg);
+void			ft_float(t_data *d, long double val);
+void			ft_expo_form(t_data *d, long double val);
+void			ft_g_float(t_data *d, long double val);
 void			ft_printf_dtoa(t_data *d, long double val, int val_len);
 
 void			ft_handle_nan(t_data *d, long double val);
 
 long double		ft_ldpow(long double val, size_t pow);
+
+int				ft_calc_expo(t_data *d, long double *val);
 
 long double		ft_get_float_val(t_data *d, va_list *arg);
 
