@@ -14,16 +14,18 @@
 
 void			ft_g_float(t_data *d, long double val)
 {
-	int		expo;
+	int				expo;
+	long double		tmp;
 
 	if (val != val || val == INFINITY)
 	{
 		ft_handle_nan(d, val);
 		return ;
 	}
-	if (d->prec == 0)
-		d->prec = 1;
-	expo = ft_calc_expo(d, &val);
+	if (d->prec == -1)
+		d->prec = 0;
+	tmp = val;
+	expo = ft_calc_expo(d, &tmp);
 	if (expo < -4 || expo >= d->prec)
 		ft_float(d, val);
 	else
