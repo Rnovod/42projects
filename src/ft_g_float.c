@@ -12,10 +12,52 @@
 
 #include "./../inc/ft_printf.h"
 
-void			ft_g_float(t_data *d, long double val)
+inline	static	int		ft_count_prec(t_data *d, long double val)
+{
+	size_t		len;
+	size_t		i;
+
+	len = 0;
+	i = 0;
+	val = (val - (uintmax_t)val) * 10.0l;
+	while ((long long)i++ < d->prec)
+	{
+		if ((uintmax_t)val)
+			len = i;
+		val = (val - (uintmax_t)val) * 10.0l;
+	}
+	return (len);
+}
+
+inline	static	void	ft_prepare_e(t_data *d, long double val)
+{
+	d->prec = ft_count_prec(d, val);
+	ft_expo_form(d, val);
+}
+
+inline	static	void	ft_prepare_f(t_data *d, long double val)
+{
+	long double		tmp;
+	long double		downpow;
+
+	tmp = val + 0.5l * ft_ldpow(0.1l, d->prec);
+	downpow = 1l;
+	while ((tmp / downpow) >= 10l)
+		downpow *= 10l;
+	while (tmp >= 10l)
+	{
+		tmp -= ((uintmax_t)(tmp / downpow)) * downpow;
+		if (d->prec)
+			--d->prec;
+		downpow /= 10l;
+	}
+	d->prec = ft_count_prec(d, val);
+	ft_float(d, val);
+}
+
+void					ft_g_float(t_data *d, long double val)
 {
 	int				expo;
-	long double		tmp;
 
 	if (val != val || val == INFINITY)
 	{
@@ -26,14 +68,9 @@ void			ft_g_float(t_data *d, long double val)
 		d->prec = 1;
 	if (d->prec == -1)
 		d->prec = 6;
-	tmp = val;
-	expo = ft_calc_expo(d, &tmp);
+	expo = ft_calc_expo(d, &val);
 	if (expo < -4 || expo >= d->prec)
-		ft_expo_form(d, val);
+		ft_prepare_e(d, val);
 	else
-	{
-		if (d->prec == 6)
-			d->prec = 0;
-		ft_float(d, val);
-	}
+		ft_prepare_f(d, val);
 }
