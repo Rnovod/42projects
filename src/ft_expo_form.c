@@ -47,7 +47,7 @@ inline	static	void	ft_put_expo(t_data *d, int expo, int expo_len)
 
 	if (FT_PRINTF_BUFF_SIZE <= d->buff_i + 3)
 		ft_print_buff(d);
-	d->buff[d->buff_i++] = (d->chr == 'E') ? 'E' : 'e';
+	d->buff[d->buff_i++] = (d->chr == 'E' || d->chr == 'G') ? 'E' : 'e';
 	d->buff[d->buff_i++] = (expo >= 0) ? '+' : '-';
 	if (expo < 0)
 		expo = -expo;
