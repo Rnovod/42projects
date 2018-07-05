@@ -20,6 +20,8 @@ int						ft_calc_expo(t_data *d, long double *val)
 	expo = 0;
 	if (*val == INFINITY)
 		return (0);
+	if (d->prec < 0)
+		d->prec = 6;
 	while (*val >= 10.0l)
 	{
 		*val /= 10.0l;
@@ -36,9 +38,7 @@ int						ft_calc_expo(t_data *d, long double *val)
 		*val /= 10l;
 		++expo;
 	}
-	if (check == 1000)
-		return (0);
-	return (expo);
+	return (check == 1000 ? 0 : expo);
 }
 
 inline	static	void	ft_put_expo(t_data *d, int expo, int expo_len)
@@ -74,8 +74,6 @@ void					ft_expo_form(t_data *d, long double val)
 		ft_handle_nan(d, val);
 		return ;
 	}
-	if (d->prec < 0)
-		d->prec = 6;
 	if (d->prec > 0)
 		d->width -= 2;
 	val_len = ft_count_double(val);
