@@ -58,6 +58,7 @@ inline	static	void	ft_prepare_f(t_data *d, long double val)
 void					ft_g_float(t_data *d, long double val)
 {
 	int				expo;
+	long double		tmp;
 
 	if (val != val || val == INFINITY)
 	{
@@ -68,7 +69,8 @@ void					ft_g_float(t_data *d, long double val)
 		d->prec = 1;
 	if (d->prec == -1)
 		d->prec = 6;
-	expo = ft_calc_expo(d, &val);
+	tmp = val;
+	expo = ft_calc_expo(d, &tmp);
 	if (expo < -4 || expo >= d->prec)
 		ft_prepare_e(d, val);
 	else
