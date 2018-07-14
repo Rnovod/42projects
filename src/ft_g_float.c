@@ -71,11 +71,13 @@ inline	static	void	ft_prepare_f(t_data *d, long double val)
 	downpow = 1l;
 	while ((tmp / downpow) >= 10.0l)
 		downpow *= 10.0l;
-	// if ((uintmax_t)tmp)
-	// 	d->prec--;
+	if ((uintmax_t)tmp)
+		d->prec--;
 	while (tmp >= 10.0l)
 	{
 		tmp -= ((uintmax_t)(tmp / downpow)) * downpow;
+		if (d->prec)
+			--d->prec;
 		downpow /= 10.0l;
 	}
 	d->prec = ft_count_prec(d, tmp);
