@@ -12,10 +12,10 @@
 
 #include "./../inc/ft_printf.h"
 
-inline	static	int	ft_calc_expo_a(t_data *d, long double *val)
+inline	static	int	ft_calc_expo_a(long double *val)
 {
-	size_t	i;
-	int		ret;
+	size_t				i;
+	int					ret;
 
 	ret = 0;
 	if (*val == INFINITY)
@@ -31,7 +31,7 @@ inline	static	int	ft_calc_expo_a(t_data *d, long double *val)
 		*val *= 2l;
 		--ret;
 	}
-	while ((*val += 0.5l * ft_ldpow(1l / 16l, d->prec - 1)) >= 2l)
+	while (*val >= 2l)
 	{
 		*val /= 2l;
 		++ret;
@@ -86,7 +86,7 @@ inline	static	void	ft_put_hexpart(t_data *d)
 
 void					ft_a_float(t_data *d, long double val)
 {
-	const int	expo = ft_calc_expo_a(d, &val);
+	const int	expo = ft_calc_expo_a(&val);
 	const int	expo_len = ft_count_dig(NULL, expo < 0 ? -expo : expo, 10);
 
 	if (val != val || val == INFINITY)
@@ -106,7 +106,7 @@ void					ft_a_float(t_data *d, long double val)
 	ft_put_hexpart(d);
 	if (!d->fl.minus && d->fl.zero)
 		ft_put_width(d, expo_len);
-	ft_printf_dtoa(d, val + 0.5l * ft_ldpow(1l / 16l, d->prec), 16l);
+	ft_printf_dtoa(d, val + 0.5l * ft_ldpow(0.0625l, d->prec), 16l);
 	ft_put_expo_a(d, expo, expo_len);
 	if (d->fl.minus)
 		ft_put_width(d, expo_len);

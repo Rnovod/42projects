@@ -19,7 +19,7 @@ inline	static	void	ft_pre_point(t_data *d, long double *val,
 	int				val_len;
 	char			*str;
 
-	str = "0123456789abcdef";
+	str = (d->chr == 'A') ? "0123456789ABCDEF" : "0123456789abcdef";
 	dec_part = 1l;
 	val_len = 1;
 	while (*val / dec_part >= base)
@@ -68,13 +68,11 @@ inline	static	void	ft_aft_point(t_data *d, long double val,
 	int		prec;
 	char	*str;
 
-	str = "0123456789abcdef";
+	str = (d->chr == 'A') ? "0123456789ABCDEF" : "0123456789abcdef";
 	prec = d->prec;
 	val = (val - (uintmax_t)(val)) * base;
 	while (prec > 0)
 	{
-		if (prec == 1)
-			val += 0.5;
 		FT_PRINTF_BUFF_SIZE == d->buff_i ? ft_print_buff(d) :
 		(d->buff[d->buff_i++] = str[(unsigned char)(val)]);
 		val = (val - (uintmax_t)val) * base;
@@ -85,7 +83,7 @@ inline	static	void	ft_aft_point(t_data *d, long double val,
 void					ft_printf_dtoa(t_data *d, long double val, 
 						long double base)
 {
-	if (d->fl.apostr)
+	if (d->fl.apostr && (d->chr != 'A' || d->chr != 'a'))
 		ft_pre_apo_point(d, &val, base);
 	else
 		ft_pre_point(d, &val, base);
