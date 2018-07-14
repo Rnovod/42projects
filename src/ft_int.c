@@ -60,6 +60,8 @@ inline	static	uintmax_t	ft_get_uval(t_data *d, va_list *arg)
 
 inline	static	uintmax_t	ft_write_data(t_data *d, va_list *arg)
 {
+	if (d->fl.zero && d->prec >= 0)
+		d->fl.zero = 0;
 	if (d->chr == 'D' || d->chr == 'd' || d->chr == 'i')
 		return (ft_get_sval(d, arg));
 	else
@@ -68,13 +70,9 @@ inline	static	uintmax_t	ft_write_data(t_data *d, va_list *arg)
 
 void						ft_int(t_data *d, va_list *arg, int base)
 {
-	uintmax_t	val;
-	int			val_len;
+	const uintmax_t	val = ft_write_data(d, arg);
+	const int		val_len = ft_count_dig(d, val, base);
 
-	val = ft_write_data(d, arg);
-	val_len = ft_count_dig(d, val, base);
-	if (d->fl.zero && d->prec >= 0)
-		d->fl.zero = 0;
 	if (d->fl.sign || d->fl.plus || d->fl.space ||
 		(d->fl.sharp == 1 && base == 8 && val_len > d->prec))
 		d->width--;
@@ -89,8 +87,10 @@ void						ft_int(t_data *d, va_list *arg, int base)
 		ft_put_width(d, val_len);
 	if (d->prec > 0 && d->prec > val_len)
 		ft_put_prec(d, val, val_len, base);
-	if (val_len != 0)
+	if (val_len && (!d->fl.apostr || base == 16))
 		ft_printf_itoa(d, val, base, val_len);
+	else if (val_len && d->fl.apostr)
+		ft_printf_apo_itoa(d, val, base, val_len);
 	if (d->width > 0 && d->fl.minus)
 		ft_put_width(d, val_len);
 }

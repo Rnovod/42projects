@@ -26,4 +26,5 @@ void		ft_set_flags(t_data *d)
 	d->width = 0;
 	d->prec = -1;
 	d->data_arg = 0;
+	d->fl.flt = 0;
 }

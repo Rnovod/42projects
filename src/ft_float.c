@@ -23,17 +23,18 @@ void			ft_float(t_data *d, long double val)
 	}
 	if (d->prec < 0)
 		d->prec = 6;
-	if (d->prec > 0)
-		d->width -= 2;
-	val_len = ft_count_double(val);
+	if (d->prec > 0 || d->fl.sharp)
+		d->width--;
+	if (d->fl.plus || d->fl.sign || d->fl.space)
+		d->width--;
+	val_len = ft_count_double(val, d->fl.apostr);
 	if (!d->fl.minus && !d->fl.zero)
 		ft_put_width(d, val_len);
-	if (d->fl.plus || d->fl.minus || d->fl.space || d->fl.sign)
+	if (d->fl.plus || d->fl.space || d->fl.sign)
 		ft_put_sign(d, 0, 0);
 	if (!d->fl.minus && d->fl.zero)
 		ft_put_width(d, val_len);
-	ft_printf_dtoa(d, val + 0.5l *
-			ft_ldpow(0.1l, d->prec), val_len);
+	ft_printf_dtoa(d, val + 0.5l * ft_ldpow(0.1l, d->prec), 10l);
 	if (d->fl.minus)
 		ft_put_width(d, val_len);
 }

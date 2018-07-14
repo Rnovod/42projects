@@ -15,15 +15,43 @@
 void			ft_printf_itoa(t_data *d, uintmax_t value, int base, int len)
 {
 	char	*str;
-	int		i;
+	int		tmp;
 
-	d->buff_i += len;
 	str = (d->chr == 'X' ? "0123456789ABCDEF" : "0123456789abcdef");
-	i = 0;
-	while (len > i++)
+	tmp = d->buff_i + len;
+	if (FT_PRINTF_BUFF_SIZE <= d->buff_i)
+		ft_print_buff(d);
+	while (len--)
 	{
-		FT_PRINTF_BUFF_SIZE == d->buff_i ? ft_print_buff(d) :
-			(d->buff[d->buff_i - i] = str[value % base]);
+		d->buff[d->buff_i + len] = str[value % base];
 		value /= base;
 	}
+	d->buff_i = tmp;
+}
+
+void			ft_printf_apo_itoa(t_data *d, uintmax_t value,
+				int base, int len)
+{
+	int		dig;
+	int		tmp;
+
+	dig = 1;
+	tmp = d->buff_i + len;
+	if (FT_PRINTF_BUFF_SIZE <= d->buff_i + len)
+		ft_print_buff(d);
+	while (len--)
+	{
+		if (dig % 4 == 0)
+		{
+			d->buff[d->buff_i + len] = ',';
+			dig = 1;
+		}
+		else
+		{
+			d->buff[d->buff_i + len] = value % base + '0';
+			value /= base;
+			dig++;
+		}
+	}
+	d->buff_i = tmp;
 }

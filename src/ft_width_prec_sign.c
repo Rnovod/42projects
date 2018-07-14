@@ -18,10 +18,13 @@ void		ft_put_width(t_data *d, int val_len)
 	int		width;
 	int		prec;
 
-	prec = d->prec - val_len;
+	if (!d->fl.flt)
+		prec = d->prec - val_len;
+	else
+		prec = d->prec;
 	c = ' ';
 	width = d->width;
-	if (d->fl.zero && d->prec < 0 && !d->fl.minus)
+	if (d->fl.zero && (d->prec < 0 || d->fl.flt) && !d->fl.minus)
 		c = '0';
 	if (prec < 0 || val_len == 0)
 		prec = 0;
@@ -57,10 +60,11 @@ void		ft_put_sign(t_data *d, uintmax_t val, int base)
 	else if (d->fl.space && !d->fl.sign && !d->fl.plus)
 		d->buff[d->buff_i++] = ' ';
 	if ((d->fl.sharp == 1 && (base == 8 || base == 16) &&
-		val != 0) || d->chr == 'p')
+		val != 0) || d->chr == 'p' || d->chr == 'a' || d->chr == 'A')
 	{
 		d->buff[d->buff_i++] = '0';
-		if ((base == 16 && d->chr == 'x') || d->chr == 'p')
+		if ((base == 16 && d->chr == 'x') || d->chr == 'p' ||
+			d->chr == 'a')
 			d->buff[d->buff_i++] = 'x';
 		else if (base != 8)
 			d->buff[d->buff_i++] = 'X';

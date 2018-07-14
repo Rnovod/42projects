@@ -14,12 +14,8 @@
 
 va_list			*ft_count_arg(t_data *d, int arg)
 {
-	va_list		param_arg;
-	va_list		*ret;
-
-	va_copy(param_arg, d->begin);
+	va_copy(d->param_arg, d->begin);
 	while (--arg)
-		va_arg(param_arg, long int);
-	ret = &param_arg;
-	return (ret);
+		va_arg(d->param_arg, long int);
+	return (&d->param_arg);
 }

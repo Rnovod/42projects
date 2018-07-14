@@ -33,9 +33,9 @@ int						ft_calc_expo(t_data *d, long double *val)
 		*val *= 10.0l;
 		--expo;
 	}
-	while ((*val += 0.5l * ft_ldpow(0.1l, d->prec)) >= 10l)
+	while ((*val += 0.5l * ft_ldpow(1.0l / 10.0l, d->prec)) >= 10.0l)
 	{
-		*val /= 10l;
+		*val /= 10.0l;
 		++expo;
 	}
 	return (check == 1000 ? 0 : expo);
@@ -67,24 +67,25 @@ void					ft_expo_form(t_data *d, long double val)
 {
 	const int	expo = ft_calc_expo(d, &val);
 	const int	expo_len = ft_count_dig(NULL, expo < 0 ? -expo : expo, 10);
-	int			val_len;
+	const int	val_len = ft_count_double(val, 0);
 
 	if (val != val || val == INFINITY)
 	{
 		ft_handle_nan(d, val);
 		return ;
 	}
-	if (d->prec > 0)
-		d->width -= 2;
-	val_len = ft_count_double(val);
+	if (d->prec > 0 || d->fl.sharp)
+		d->width--;
+	if (d->fl.plus || d->fl.sign || d->fl.space)
+		d->width--;
 	d->width -= 2 + (expo_len < 10 ? 2 : expo_len);
 	if (!d->fl.minus && !d->fl.zero)
 		ft_put_width(d, val_len);
-	if (d->fl.plus || d->fl.minus || d->fl.space || d->fl.sign)
+	if (d->fl.plus || d->fl.space || d->fl.sign)
 		ft_put_sign(d, 0, 0);
 	if (!d->fl.minus && d->fl.zero)
 		ft_put_width(d, val_len);
-	ft_printf_dtoa(d, val, val_len);
+	ft_printf_dtoa(d, val, 10l);
 	ft_put_expo(d, expo, expo_len);
 	if (d->fl.minus)
 		ft_put_width(d, val_len);

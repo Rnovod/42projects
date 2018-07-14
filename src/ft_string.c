@@ -12,16 +12,6 @@
 
 #include "./../inc/ft_printf.h"
 
-inline	static	int		ft_strlen(char *str)
-{
-	unsigned char	*cp;
-
-	cp = (unsigned char*)str;
-	while (*cp++)
-		;
-	return (cp - (unsigned char*)str - 1);
-}
-
 void					ft_string(t_data *d, char *value)
 {
 	int		val_len;

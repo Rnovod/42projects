@@ -34,6 +34,13 @@ SRC			=	ft_printf.c \
 				ft_get_float_val.c \
 				ft_expo_form.c \
 				ft_g_float.c \
+				ft_color.c \
+				ft_strlen.c \
+				ft_nonprint_char_str.c \
+				ft_print_date.c \
+				ft_change_fd.c \
+				ft_two_dimensional_array.c \
+				ft_a_float.c
 				
 OBJ			=	$(addprefix $(OBJ_DIR), $(SRC:.c=.o))
 
@@ -51,6 +58,7 @@ CC			=	gcc
 
 BG			=	"\033[32;1m"
 BR			=	"\033[31;1m"
+EOC			=	"\033[0m"
 
 all: $(NAME)
 
@@ -62,8 +70,7 @@ main : main.c
 $(NAME): $(OBJ)
 	@ar rc $(NAME) $(OBJ)
 	@ranlib $(NAME)
-	@echo ${BG}"ft_printf is ready"
-
+	@echo ${BG}"ft_printf is ready"${EOC}
 $(OBJ): | $(OBJ_DIR)
 
 $(OBJ_DIR):

@@ -37,7 +37,8 @@ inline	static	void	ft_prepare_e(t_data *d, long double val)
 	ft_calc_expo(d, &tmp);
 	if ((uintmax_t)val)
 		d->prec--;
-	d->prec = ft_count_prec(d, tmp);
+	if (!d->fl.sharp)
+		d->prec = ft_count_prec(d, tmp);
 	ft_expo_form(d, val);
 }
 
@@ -45,21 +46,20 @@ inline	static	void	ft_prepare_f(t_data *d, long double val)
 {
 	long double		tmp;
 	long double		downpow;
+	const int		val_len = ft_count_double(val, 0);
 
-	tmp = val + 0.5l * ft_ldpow(0.1l, d->prec);
+	tmp = val + 0.5l * ft_ldpow(0.1l, d->prec - val_len);
 	downpow = 1l;
-	while ((tmp / downpow) >= 10l)
-		downpow *= 10l;
-	if ((uintmax_t)tmp)
-		d->prec--;
-	while (tmp >= 10l)
+	while ((tmp / downpow) >= 10.0l)
+		downpow *= 10.0l;
+	while (tmp >= 10.0l)
 	{
 		tmp -= ((uintmax_t)(tmp / downpow)) * downpow;
-		if (d->prec)
-			--d->prec;
-		downpow /= 10l;
+		downpow /= 10.0l;
 	}
-	d->prec = ft_count_prec(d, tmp);
+	d->prec -= val_len;
+	if (!d->fl.sharp)
+		d->prec = ft_count_prec(d, tmp);
 	ft_float(d, val);
 }
 
@@ -75,8 +75,6 @@ void					ft_g_float(t_data *d, long double val)
 	}
 	if (d->prec == 0)
 		d->prec = 1;
-	if (d->prec == -1)
-		d->prec = 6;
 	tmp = val;
 	expo = ft_calc_expo(d, &tmp);
 	if (expo < -4 || expo >= d->prec)

@@ -16,8 +16,7 @@ long double		ft_get_float_val(t_data *d, va_list *arg)
 {
 	long double	val;
 
-	d->fl.zero = 0;
-	d->fl.sharp = 0;
+	d->fl.flt = 1;
 	if (d->fl.long_db)
 		val = va_arg(*arg, long double);
 	else

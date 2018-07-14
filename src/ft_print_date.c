@@ -1,20 +1,23 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_print_buff.c                                    :+:      :+:    :+:   */
+/*   ft_print_date.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: rnovodra <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2018/06/28 13:55:23 by rnovodra          #+#    #+#             */
-/*   Updated: 2018/06/28 13:55:25 by rnovodra         ###   ########.fr       */
+/*   Created: 2018/07/11 17:10:55 by rnovodra          #+#    #+#             */
+/*   Updated: 2018/07/11 17:10:56 by rnovodra         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "./../inc/ft_printf.h"
 
-void			ft_print_buff(t_data *d)
+void		ft_print_date(t_data *d)
 {
-	write(d->fd, d->buff, d->buff_i);
-	d->ret += d->buff_i;
-	d->buff_i = 0;
+	const time_t	timer = time(NULL);
+	char			*str;
+
+	str = ctime(&timer);
+	str[24] = '\0';
+	ft_string(d, str);
 }

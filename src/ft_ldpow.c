@@ -12,12 +12,14 @@
 
 #include "./../inc/ft_printf.h"
 
-long double		ft_ldpow(long double val, size_t pow)
+long double		ft_ldpow(long double val, int pow)
 {
 	long double		res;
 
 	res = 1l;
-	while (pow)
+	if (pow < 0)
+		return (0);
+	while (pow > 0)
 	{
 		if (pow & 1)
 			res *= val;
