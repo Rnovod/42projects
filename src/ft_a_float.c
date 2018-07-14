@@ -76,14 +76,6 @@ inline	static	void	ft_put_expo_a(t_data *d, int expo, int expo_len)
 	}
 }
 
-inline	static	void	ft_put_hexpart(t_data *d)
-{
-	if (FT_PRINTF_BUFF_SIZE <= d->buff_i + 2)
-		ft_print_buff(d);
-	d->buff[d->buff_i++] = '0';
-	d->buff[d->buff_i++] = (d->chr == 'A') ? 'X' : 'x';
-}
-
 void					ft_a_float(t_data *d, long double val)
 {
 	const int	expo = ft_calc_expo_a(&val);
@@ -101,9 +93,7 @@ void					ft_a_float(t_data *d, long double val)
 	d->width -= 5;
 	if (!d->fl.minus && !d->fl.zero)
 		ft_put_width(d, expo_len);
-	if (d->fl.plus || d->fl.space || d->fl.sign)
-		ft_put_sign(d, 0, 0);
-	ft_put_hexpart(d);
+	ft_put_sign(d, 0, 0);
 	if (!d->fl.minus && d->fl.zero)
 		ft_put_width(d, expo_len);
 	ft_printf_dtoa(d, val + 0.5l * ft_ldpow(0.0625l, d->prec), 16l);
