@@ -90,6 +90,8 @@ void					ft_a_float(t_data *d, long double val)
 		d->prec = ft_count_len_a(val);
 	if (d->prec > 0 || d->fl.sharp)
 		d->width--;
+	if (d->fl.plus || d->fl.sign || d->fl.space)
+		d->width--;
 	d->width -= 5;
 	if (!d->fl.minus && !d->fl.zero)
 		ft_put_width(d, expo_len);

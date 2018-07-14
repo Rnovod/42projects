@@ -21,7 +21,7 @@ long double		ft_get_float_val(t_data *d, va_list *arg)
 		val = va_arg(*arg, long double);
 	else
 		val = va_arg(*arg, double);
-	if (val < 0)
+	if (val < 0 || val == -0.0l)
 	{
 		d->fl.sign = 1;
 		return (-val);
