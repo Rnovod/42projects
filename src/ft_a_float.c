@@ -36,7 +36,7 @@ inline	static	int	ft_calc_expo_a(long double *val)
 		*val /= 2l;
 		++ret;
 	}
-	return (ret == 1000 ? 0 : ret);
+	return (i == 1000 ? 0 : ret);
 }
 
 inline	static	int	ft_count_len_a(long double val)
