@@ -23,7 +23,7 @@ inline	static	int		ft_count_prec(t_data *d, long double val)
 	while (i++ < d->prec)
 	{
 		if ((uintmax_t)val)
-			len++;
+			len = i;
 		val = (val - (uintmax_t)val) * 10.0l;
 	}
 	return (len);
@@ -32,11 +32,11 @@ inline	static	int		ft_count_prec(t_data *d, long double val)
 inline	static	void	ft_prepare_e(t_data *d, long double val)
 {
 	long double		tmp;
-
+	const int		dec_len = ft_count_double(val, 0);
+	
+	d->prec -= dec_len;
 	tmp = val;
 	ft_calc_expo(d, &tmp);
-	if ((uintmax_t)val)
-		d->prec--;
 	d->prec = ft_count_prec(d, tmp);
 	ft_expo_form(d, val);
 }
@@ -62,27 +62,39 @@ inline	static	void	ft_prepare_e(t_data *d, long double val)
 // 	return (len);
 // }
 
+// inline	static	void	ft_prepare_f(t_data *d, long double val)
+// {
+// 	long double		tmp;
+// 	// long double		downpow;
+// 	const int		dec_len = ft_count_double(val, 0);
+
+// 	d->prec -= dec_len;
+// 	tmp = val + 0.5l * ft_ldpow(0.1l, d->prec);
+// 	// downpow = 1l;
+// 	// while ((tmp / downpow) >= 10.0l)
+// 	// 	downpow *= 10.0l;
+// 	// if ((uintmax_t)tmp)
+// 	// 	d->prec--;
+// 	// while (tmp >= 10.0l)
+// 	// {
+// 	// 	tmp -= ((uintmax_t)(tmp / downpow)) * downpow;
+// 	// 	if (d->prec)
+// 	// 		--d->prec;
+// 	// 	downpow /= 10.0l;
+// 	// }
+// 	d->prec = ft_count_prec(d, val);
+// 	// if (!(uintmax_t)tmp)
+// 	// 	d->prec = ft_check_prec(d, val);
+// 	ft_float(d, val);
+// }
+
 inline	static	void	ft_prepare_f(t_data *d, long double val)
 {
-	long double		tmp;
-	long double		downpow;
-
-	tmp = val + 0.5l * ft_ldpow(0.1l, d->prec);
-	downpow = 1l;
-	while ((tmp / downpow) >= 10.0l)
-		downpow *= 10.0l;
-	if ((uintmax_t)tmp)
-		d->prec--;
-	while (tmp >= 10.0l)
-	{
-		tmp -= ((uintmax_t)(tmp / downpow)) * downpow;
-		if (d->prec)
-			--d->prec;
-		downpow /= 10.0l;
-	}
-	d->prec = ft_count_prec(d, tmp);
-	// if (!(uintmax_t)tmp)
-	// 	d->prec = ft_check_prec(d, val);
+	const int		dec_len = ft_count_double(val, 0);
+	
+	if ((uintmax_t)val)
+		d->prec -= dec_len;
+	d->prec = ft_count_prec(d, val + 0.5l * ft_ldpow(0.1l, d->prec));
 	ft_float(d, val);
 }
 
