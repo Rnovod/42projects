@@ -35,6 +35,8 @@ inline	static	void	ft_prepare_e(t_data *d, long double val)
 
 	tmp = val;
 	ft_calc_expo(d, &tmp);
+	if ((uintmax_t)tmp)
+		d->prec--;
 	d->prec = ft_count_prec(d, tmp);
 	ft_expo_form(d, val);
 }
