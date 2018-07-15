@@ -55,7 +55,7 @@ inline	static	int		ft_check_prec(t_data *d, long double val)
 		val = (val - (uintmax_t)val) * 10.0l;
 		len++;
 	}
-	while (!(uintmax_t)val)
+	while (!(uintmax_t)val && len < 6)
 	{
 		val = (val - (uintmax_t)val) * 10.0l;
 		if ((uintmax_t)val)
@@ -63,7 +63,7 @@ inline	static	int		ft_check_prec(t_data *d, long double val)
 		len++;
 	}
 	if (flag == 0)
-		return (0);
+		return (0);(void)d;
 	return (len);
 }
 
