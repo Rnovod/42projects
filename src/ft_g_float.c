@@ -41,26 +41,31 @@ inline	static	void	ft_prepare_e(t_data *d, long double val)
 	ft_expo_form(d, val);
 }
 
-// inline	static	int		ft_check_prec(t_data *d, long double val)
-// {
-// 	int		len;
-// 	int		i;
-// 	int		flag;
+inline	static	int		ft_check_prec(t_data *d, long double val)
+{
+	int		len;
+	int		i;
+	int		flag;
 
-// 	len = 0;
-// 	i = 0;
-// 	flag = 0;
-// 	while (!(uintmax_t)val && ++i < 6)
-// 	{
-// 		val = (val - (uintmax_t)val) * 10.0l;
-// 		if ((uintmax_t)val)
-// 			flag = 1;
-// 		len++;
-// 	}
-// 	if (flag == 0)
-// 		return (d->prec);
-// 	return (len);
-// }
+	len = 0;
+	i = 0;
+	flag = 0;
+	if (!(uintmax_t)val)
+	{
+		val = (val - (uintmax_t)val) * 10.0l;
+		len++;
+	}
+	while (!(uintmax_t)val)
+	{
+		val = (val - (uintmax_t)val) * 10.0l;
+		if ((uintmax_t)val)
+			flag = 1;
+		len++;
+	}
+	if (flag == 0)
+		return (0);
+	return (len);
+}
 
 // inline	static	void	ft_prepare_f(t_data *d, long double val)
 // {
@@ -95,6 +100,8 @@ inline	static	void	ft_prepare_f(t_data *d, long double val)
 	if ((uintmax_t)val)
 		d->prec -= dec_len;
 	d->prec = ft_count_prec(d, val + 0.5l * ft_ldpow(0.1l, d->prec));
+	if (d->prec == 0)
+		d->prec = ft_check_prec(d, val + 0.5l * ft_ldpow(0.1l, 6));
 	ft_float(d, val);
 }
 
