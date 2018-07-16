@@ -12,7 +12,7 @@
 
 #include "./../inc/ft_printf.h"
 
-inline	static	int	ft_calc_expo_a(long double *val)
+inline	static	int		ft_calc_expo_a(long double *val)
 {
 	size_t				i;
 	int					ret;
@@ -39,7 +39,7 @@ inline	static	int	ft_calc_expo_a(long double *val)
 	return (i == 1000 ? 0 : ret);
 }
 
-inline	static	int	ft_count_len_a(long double val)
+inline	static	int		ft_count_len_a(long double val)
 {
 	size_t		res;
 	long double	prev;
@@ -70,8 +70,9 @@ inline	static	void	ft_put_expo_a(t_data *d, int expo, int expo_len)
 	d->buff_i += expo_len;
 	while (i++ < expo_len)
 	{
-		FT_PRINTF_BUFF_SIZE == d->buff_i ? ft_print_buff(d) :
-			(d->buff[d->buff_i - i] = "0123456789"[expo % 10]);
+		if (FT_PRINTF_BUFF_SIZE <= d->buff_i)
+			ft_print_buff(d);
+		d->buff[d->buff_i - i] = "0123456789"[expo % 10];
 		expo /= 10;
 	}
 }

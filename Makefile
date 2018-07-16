@@ -13,6 +13,8 @@
 NAME		=	libftprintf.a
 
 SRC			=	ft_printf.c \
+				ft_dprintf.c \
+				ft_vdprintf.c \
 				ft_print_buff.c \
 				ft_spec.c \
 				ft_set_flags.c \
@@ -38,9 +40,8 @@ SRC			=	ft_printf.c \
 				ft_strlen.c \
 				ft_nonprint_char_str.c \
 				ft_print_date.c \
-				ft_change_fd.c \
 				ft_two_dimensional_array.c \
-				ft_a_float.c
+				ft_a_float.c 
 				
 OBJ			=	$(addprefix $(OBJ_DIR), $(SRC:.c=.o))
 

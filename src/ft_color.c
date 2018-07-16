@@ -21,7 +21,9 @@ inline	static	void	ft_put_color(t_data *d, char *str_color)
 	ptr_color = (t_bytes*)str_color;
 	ptr_buff->byte7 = ptr_color->byte7;
 	d->buff_i += 7;
-	d->ret -= 7;
+	d->clr += 7;
+	if (d->clr < 0)
+		d->ret = -1;
 }
 
 inline	static	int		ft_choose_color(t_data *d, char *color, int chrs)
@@ -47,30 +49,28 @@ inline	static	int		ft_choose_color(t_data *d, char *color, int chrs)
 		ft_put_color(d, WHITE);
 	else
 		return (1);
-	d->form_i += chrs;
 	return (0);
 }
 
-void					ft_color(t_data *d, const char *f)
+const char				*ft_color(t_data *d, const char *pos)
 {
 	int		i;
-	int		flag;
 	char	str_col[7];
 
 	i = 0;
-	flag = 0;
-	++d->form_i;
-	while (f[i + d->form_i] && f[i + d->form_i] && i < 7)
+	++pos;
+	while (*(pos + i) && i < 7 && *(pos + i) != '}')
 	{
-		if (f[i + d->form_i] == '}')
-		{
-			flag = 1;
-			break ;
-		}
-		str_col[i] = f[i + d->form_i];
+		str_col[i] = *(pos + i);
 		i++;
 	}
-	if (!flag || ft_choose_color(d, str_col, ++i))
-		FT_PRINTF_BUFF_SIZE == d->buff_i ? ft_print_buff(d) :
-		(d->buff[d->buff_i++] = '{');
+	if (*(pos + i) != '}' || ft_choose_color(d, str_col, ++i))
+	{
+		if (FT_PRINTF_BUFF_SIZE <= d->buff_i)
+			ft_print_buff(d);
+		d->buff[d->buff_i++] = '{';
+	}
+	else
+		pos += i;
+	return (pos);
 }

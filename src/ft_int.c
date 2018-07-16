@@ -43,7 +43,7 @@ inline	static	uintmax_t	ft_get_uval(t_data *d, va_list *arg)
 	d->fl.plus = 0;
 	d->fl.space = 0;
 	if (d->fl.size == 0)
-		return ((unsigned int)va_arg(*arg, unsigned int));
+		return (va_arg(*arg, unsigned int));
 	else if (d->fl.size == 1)
 		return ((unsigned char)va_arg(*arg, int));
 	else if (d->fl.size == 2)

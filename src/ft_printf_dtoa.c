@@ -29,7 +29,7 @@ inline	static	void	ft_pre_point(t_data *d, long double *val,
 	}
 	while (val_len--)
 	{
-		if (FT_PRINTF_BUFF_SIZE == d->buff_i)
+		if (FT_PRINTF_BUFF_SIZE <= d->buff_i)
 			ft_print_buff(d);
 		(d->buff[d->buff_i++] = str[(unsigned char)(*val / dec_part)]);
 		*val -= (uintmax_t)(*val / dec_part) * dec_part;
@@ -52,8 +52,9 @@ inline	static	void	ft_pre_apo_point(t_data *d, long double *val,
 	}
 	while (*val >= 1l)
 	{
-		FT_PRINTF_BUFF_SIZE == d->buff_i ? ft_print_buff(d) :
-		(d->buff[d->buff_i++] = (unsigned char)(*val / dec_part + '0'));
+		if (FT_PRINTF_BUFF_SIZE <= d->buff_i)
+			ft_print_buff(d);
+		d->buff[d->buff_i++] = (unsigned char)(*val / dec_part + '0');
 		if (val_len && val_len % 3 == 0)
 			d->buff[d->buff_i++] = ',';
 		*val -= (uintmax_t)(*val / dec_part) * dec_part;
@@ -73,14 +74,15 @@ inline	static	void	ft_aft_point(t_data *d, long double val,
 	val = (val - (uintmax_t)(val)) * base;
 	while (prec > 0)
 	{
-		FT_PRINTF_BUFF_SIZE == d->buff_i ? ft_print_buff(d) :
-		(d->buff[d->buff_i++] = str[(unsigned char)(val)]);
+		if (FT_PRINTF_BUFF_SIZE <= d->buff_i)
+			ft_print_buff(d);
+		d->buff[d->buff_i++] = str[(unsigned char)(val)];
 		val = (val - (uintmax_t)val) * base;
 		--prec;
 	}
 }
 
-void					ft_printf_dtoa(t_data *d, long double val, 
+void					ft_printf_dtoa(t_data *d, long double val,
 						long double base)
 {
 	if (d->fl.apostr && (d->chr != 'A' || d->chr != 'a'))
@@ -89,6 +91,8 @@ void					ft_printf_dtoa(t_data *d, long double val,
 		ft_pre_point(d, &val, base);
 	if (d->prec > 0 || d->fl.sharp == 1)
 	{
+		if (FT_PRINTF_BUFF_SIZE <= d->buff_i)
+			ft_print_buff(d);
 		d->buff[d->buff_i++] = '.';
 		if (d->prec > 0)
 			ft_aft_point(d, val, base);

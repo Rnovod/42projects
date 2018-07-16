@@ -1,22 +1,26 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_change_fd.c                                     :+:      :+:    :+:   */
+/*   ft_dprintf.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: rnovodra <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2018/07/11 17:56:44 by rnovodra          #+#    #+#             */
-/*   Updated: 2018/07/11 17:56:45 by rnovodra         ###   ########.fr       */
+/*   Created: 2018/07/16 12:20:42 by rnovodra          #+#    #+#             */
+/*   Updated: 2018/07/16 12:20:43 by rnovodra         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "./../inc/ft_printf.h"
 
-void			ft_change_fd(t_data *d, int fd)
+int		ft_dprintf(const int fd, const char *restrict format, ...)
 {
-	if (write(fd, d->buff, 0) < 0)
-		d->error = 1;
-	else
-		ft_print_buff(d);
-	d->fd = fd;
+	va_list		arg;
+	int			done;
+
+	if (!format)
+		return (-1);
+	va_start(arg, format);
+	done = ft_vdprintf(fd, format, &arg);
+	va_end(arg);
+	return (done);
 }

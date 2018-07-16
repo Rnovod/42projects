@@ -31,8 +31,9 @@ void		ft_put_width(t_data *d, int val_len)
 	width -= (val_len + prec);
 	while (width-- > 0)
 	{
-		FT_PRINTF_BUFF_SIZE == d->buff_i ? ft_print_buff(d) :
-		(d->buff[d->buff_i++] = c);
+		if (FT_PRINTF_BUFF_SIZE <= d->buff_i)
+			ft_print_buff(d);
+		d->buff[d->buff_i++] = c;
 	}
 	d->width = width;
 }
@@ -46,13 +47,16 @@ void		ft_put_prec(t_data *d, uintmax_t val, int len, int base)
 		--prec;
 	while (prec-- > 0)
 	{
-		FT_PRINTF_BUFF_SIZE == d->buff_i ? ft_print_buff(d) :
-		(d->buff[d->buff_i++] = '0');
+		if (FT_PRINTF_BUFF_SIZE <= d->buff_i)
+			ft_print_buff(d);
+		d->buff[d->buff_i++] = '0';
 	}
 }
 
 void		ft_put_sign(t_data *d, uintmax_t val, int base)
 {
+	if (FT_PRINTF_BUFF_SIZE <= d->buff_i + 3)
+		ft_print_buff(d);
 	if (d->fl.plus && !d->fl.sign)
 		d->buff[d->buff_i++] = '+';
 	else if (d->fl.sign && base != 16 && base != 8)

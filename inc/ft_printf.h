@@ -21,7 +21,6 @@
 # include <locale.h>
 # include <stdlib.h>
 # include <math.h>
-# include <stdint.h>
 # include <time.h>
 # include <fcntl.h>
 
@@ -69,10 +68,9 @@ typedef	struct	s_flags
 
 typedef	struct	s_data
 {
-	unsigned char	buff[FT_PRINTF_BUFF_SIZE];
-	size_t			buff_i;
-	size_t			form_i;
-	size_t			ret;
+	char			buff[FT_PRINTF_BUFF_SIZE];
+	int				buff_i;
+	int				ret;
 	char			chr;
 	int				width;
 	int				prec;
@@ -81,18 +79,22 @@ typedef	struct	s_data
 	va_list			param_arg;
 	size_t			data_arg;
 	int				fd;
-	unsigned int	error:1;
+	int				clr;
 }				t_data;
 
 int				ft_printf(const char *restrict format, ...);
+int				ft_vdprintf(const int fd, const char *restrict format, va_list *arg);
+int				ft_dprintf(const int fd, const char *restrict format, ...);
 
-void			ft_spec(t_data *d, const char *f, va_list *arg);
+const char		*ft_spec(t_data *d, const char *pos, va_list *arg);
+const char		*ft_color(t_data *d, const char *pos);
+
 
 void			ft_print_buff(t_data *d);
 
 void			ft_set_flags(t_data *d);
 
-int				ft_star(t_data *d, const char *f, va_list *arg);
+int				ft_star(t_data *d, const char **pos, va_list *arg);
 
 void			ft_conv(t_data *d, char chr, va_list *arg);
 
@@ -129,8 +131,6 @@ long double		ft_ldpow(long double val, int pow);
 int				ft_calc_expo(t_data *d, long double *val);
 
 long double		ft_get_float_val(t_data *d, va_list *arg);
-
-void			ft_color(t_data *d, const char *f);
 
 void			ft_nonprint_str(t_data *d, unsigned char *value);
 void			ft_nonprint_char(t_data *d, unsigned char value);

@@ -18,9 +18,9 @@ void			ft_printf_itoa(t_data *d, uintmax_t value, int base, int len)
 	int		tmp;
 
 	str = (d->chr == 'X' ? "0123456789ABCDEF" : "0123456789abcdef");
-	tmp = d->buff_i + len;
-	if (FT_PRINTF_BUFF_SIZE <= d->buff_i)
+	if (FT_PRINTF_BUFF_SIZE <= d->buff_i + len)
 		ft_print_buff(d);
+	tmp = d->buff_i + len;
 	while (len--)
 	{
 		d->buff[d->buff_i + len] = str[value % base];

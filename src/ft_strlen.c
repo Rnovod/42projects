@@ -41,7 +41,7 @@ int					ft_strlen(char *str)
 	longword_ptr = (uintmax_t *)str;
 	if (!str)
 		return (0);
-	while (1)
+	while (42)
 	{
 		longword = *longword_ptr++;
 		if (((longword - 0x101010101010101L)

@@ -15,7 +15,7 @@
 void			ft_handle_nan(t_data *d, long double val)
 {
 	char		*str;
-	const char	flag = d->chr == 'f' || d->chr == 'e' || d->chr == 'g';
+	const char	flag = d->chr > 91;
 
 	d->prec = 0;
 	if ((d->fl.sign || d->fl.plus) && val == val)
@@ -32,8 +32,9 @@ void			ft_handle_nan(t_data *d, long double val)
 		d->buff[d->buff_i++] = '+';
 	while (*str)
 	{
-		FT_PRINTF_BUFF_SIZE == d->buff_i ? ft_print_buff(d) :
-		(d->buff[d->buff_i++] = *str++);
+		if (FT_PRINTF_BUFF_SIZE <= d->buff_i)
+			ft_print_buff(d);
+		d->buff[d->buff_i++] = *str++;
 	}
 	if (d->fl.minus)
 		ft_put_width(d, 3);

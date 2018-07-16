@@ -14,8 +14,6 @@
 
 inline	static	void	ft_putwchar(t_data *d, int val_len, wchar_t value)
 {
-	if (FT_PRINTF_BUFF_SIZE <= (d->buff_i + val_len))
-		ft_print_buff(d);
 	if (val_len == 2)
 	{
 		d->buff[d->buff_i++] = ((value & 0xFC0) >> 6) | (0xC080 >> 8);
@@ -53,6 +51,8 @@ void					ft_char(t_data *d, wchar_t value)
 		d->prec = -1;
 	if (!d->fl.minus)
 		ft_put_width(d, val_len);
+	if (FT_PRINTF_BUFF_SIZE <= (d->buff_i + val_len))
+		ft_print_buff(d);
 	if (val_len == 1)
 		d->buff[d->buff_i++] = (char)value;
 	else

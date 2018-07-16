@@ -44,8 +44,9 @@ inline	static	void	ft_chartype_array(t_data *d, char **array)
 		d->width = width;
 		d->prec = prec;
 		ft_string(d, array[i]);
-		FT_PRINTF_BUFF_SIZE == d->buff_i ? ft_print_buff(d) :
-		(d->buff[d->buff_i++] = '\n');
+		if (FT_PRINTF_BUFF_SIZE <= d->buff_i)
+			ft_print_buff(d);
+		d->buff[d->buff_i++] = '\n';
 		i++;
 	}
 	if (i == 0)
@@ -71,8 +72,9 @@ inline	static	void	ft_wchartype_array(t_data *d, wchar_t **array)
 		d->width = width;
 		d->prec = prec;
 		ft_wstring(d, array[i]);
-		FT_PRINTF_BUFF_SIZE == d->buff_i ? ft_print_buff(d) :
-		(d->buff[d->buff_i++] = '\n');
+		if (FT_PRINTF_BUFF_SIZE <= d->buff_i)
+			ft_print_buff(d);
+		d->buff[d->buff_i++] = '\n';
 		i++;
 	}
 	if (i == 0)
@@ -94,8 +96,9 @@ void					ft_two_dimensional_array(t_data *d, va_list *arg)
 		ft_string(d, NULL);
 		return ;
 	}
-	FT_PRINTF_BUFF_SIZE == d->buff_i ? ft_print_buff(d) :
-	(d->buff[d->buff_i++] = '\n');
+	if (FT_PRINTF_BUFF_SIZE <= d->buff_i)
+		ft_print_buff(d);
+	d->buff[d->buff_i++] = '\n';
 	if (d->fl.size == 3 || d->chr == 'M')
 		ft_wchartype_array(d, (wchar_t**)check);
 	else

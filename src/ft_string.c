@@ -12,10 +12,53 @@
 
 #include "./../inc/ft_printf.h"
 
+inline	static	void	ft_cpylast(t_data *d, char *val, int len)
+{
+	int		i;
+	char	*dst;
+
+	dst = &d->buff[d->buff_i];
+	i = 0;
+	while (i < len && *val)
+	{
+		if (FT_PRINTF_BUFF_SIZE <= d->buff_i)
+			ft_print_buff(d);
+		(*dst++ = *val++);
+		i++;
+	}
+	d->buff_i += i;
+}
+
+inline	static	void	ft_printf_strncpy(t_data *d, char *val, int len)
+{
+	uintmax_t	*longword_val;
+	uintmax_t	*longword_dst;
+	int			i;
+
+	i = 0;
+	longword_dst = (uintmax_t *)&d->buff[d->buff_i];
+	longword_val = (uintmax_t *)val;
+	while (42)
+	{
+		if (FT_PRINTF_BUFF_SIZE <= d->buff_i + 8)
+		{
+			ft_print_buff(d);
+			longword_dst = (uintmax_t *)d->buff;
+		}
+		if (i + 8 > len)
+		{
+			ft_cpylast(d, (char*)longword_val, len - i);
+			break ;
+		}
+		*longword_dst++ = *longword_val++;
+		d->buff_i += 8;
+		i += 8;
+	}
+}
+
 void					ft_string(t_data *d, char *value)
 {
 	int		val_len;
-	char	*begin;
 
 	if (!value)
 	{
@@ -29,12 +72,7 @@ void					ft_string(t_data *d, char *value)
 	d->prec = -1;
 	if (d->fl.minus == 0)
 		ft_put_width(d, val_len);
-	begin = value;
-	while (*value && value - begin < val_len)
-	{
-		FT_PRINTF_BUFF_SIZE == d->buff_i ? ft_print_buff(d) :
-		(d->buff[d->buff_i++] = *value++);
-	}
+	ft_printf_strncpy(d, value, val_len);
 	if (d->fl.minus == 1)
 		ft_put_width(d, val_len);
 }

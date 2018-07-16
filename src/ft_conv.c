@@ -44,8 +44,6 @@ inline	static	void	ft_conv_anoth(t_data *d, char chr, va_list *arg)
 		ft_int(d, arg, 2);
 	else if (chr == 't')
 		ft_print_date(d);
-	else if (chr == 'w')
-		ft_change_fd(d, va_arg(*arg, int));
 	else
 		ft_extra_conv(d, chr, arg);
 }

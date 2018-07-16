@@ -12,21 +12,21 @@
 
 #include "./../inc/ft_printf.h"
 
-int			ft_star(t_data *d, const char *f, va_list *arg)
+int			ft_star(t_data *d, const char **pos, va_list *arg)
 {
-	int				value;
-	register int	i;
+	int			value;
+	const char	*ptr;
 
 	value = 0;
-	i = ++d->form_i;
-	while (f[i] >= '0' && f[i] <= '9')
+	ptr = ++(*pos);
+	while (*ptr >= '0' && *ptr <= '9')
 	{
-		value = value * 10 + (f[i] - '0');
-		i++;
+		value = value * 10 + (*ptr - '0');
+		ptr++;
 	}
-	if (f[i] == '$')
+	if (*ptr == '$')
 	{
-		d->form_i = ++i;
+		(*pos) = ++ptr;
 		if (value == 0)
 			return (0);
 		return (va_arg(*ft_count_arg(d, value), int));

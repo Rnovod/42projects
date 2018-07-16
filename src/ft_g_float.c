@@ -29,19 +29,31 @@ inline	static	int		ft_count_prec(t_data *d, long double val)
 	return (len);
 }
 
-inline	static	void	ft_prepare_e(t_data *d, long double val)
+inline	static	int		ft_count_prec_sharp(long double val, int dec_len)
 {
-	long double		tmp;
+	int		len;
+	int		i;
+	int		flag;
 
-	tmp = val;
-	ft_calc_expo(d, &tmp);
-	if ((uintmax_t)tmp)
-		d->prec--;
-	d->prec = ft_count_prec(d, tmp);
-	ft_expo_form(d, val);
+	len = 0;
+	i = dec_len;
+	flag = 0;
+	if ((uintmax_t)val)
+		flag = 1;
+	val = (val - (uintmax_t)val) * 10.0l;
+	while (i < 6)
+	{
+		if ((uintmax_t)val)
+			flag = 1;
+		if (flag == 1)
+			i++;
+		++len;
+		val = (val - (uintmax_t)val) * 10.0l;
+	}
+	return (len);
 }
 
-inline	static	int		ft_check_prec(t_data *d, long double val)
+inline	static	int		ft_check_prec(long double val)
 {
 	int		len;
 	int		i;
@@ -63,45 +75,25 @@ inline	static	int		ft_check_prec(t_data *d, long double val)
 		len++;
 	}
 	if (flag == 0)
-		return (0);(void)d;
+		return (0);
 	return (len);
 }
 
-// inline	static	void	ft_prepare_f(t_data *d, long double val)
-// {
-// 	long double		tmp;
-// 	// long double		downpow;
-// 	const int		dec_len = ft_count_double(val, 0);
-
-// 	d->prec -= dec_len;
-// 	tmp = val + 0.5l * ft_ldpow(0.1l, d->prec);
-// 	// downpow = 1l;
-// 	// while ((tmp / downpow) >= 10.0l)
-// 	// 	downpow *= 10.0l;
-// 	// if ((uintmax_t)tmp)
-// 	// 	d->prec--;
-// 	// while (tmp >= 10.0l)
-// 	// {
-// 	// 	tmp -= ((uintmax_t)(tmp / downpow)) * downpow;
-// 	// 	if (d->prec)
-// 	// 		--d->prec;
-// 	// 	downpow /= 10.0l;
-// 	// }
-// 	d->prec = ft_count_prec(d, val);
-// 	// if (!(uintmax_t)tmp)
-// 	// 	d->prec = ft_check_prec(d, val);
-// 	ft_float(d, val);
-// }
-
 inline	static	void	ft_prepare_f(t_data *d, long double val)
 {
-	const int		dec_len = ft_count_double(val, 0);
-	
+	int		dec_len;
+
+	dec_len = ft_count_double(val, 0);
 	if ((uintmax_t)val)
 		d->prec -= dec_len;
-	d->prec = ft_count_prec(d, val + 0.5l * ft_ldpow(0.1l, d->prec));
+	else
+		dec_len = 0;
+	if (!d->fl.sharp)
+		d->prec = ft_count_prec(d, val + 0.5l * ft_ldpow(0.1l, d->prec));
+	else
+		d->prec = ft_count_prec_sharp(val, dec_len);
 	if (d->prec == 0)
-		d->prec = ft_check_prec(d, val + 0.5l * ft_ldpow(0.1l, 6));
+		d->prec = ft_check_prec(val);
 	ft_float(d, val);
 }
 
@@ -122,7 +114,13 @@ void					ft_g_float(t_data *d, long double val)
 	tmp = val;
 	expo = ft_calc_expo(d, &tmp);
 	if (expo < -4 || expo >= d->prec)
-		ft_prepare_e(d, val);
+	{
+		if ((uintmax_t)tmp)
+			d->prec--;
+		if (!d->fl.sharp)
+			d->prec = ft_count_prec(d, tmp);
+		ft_expo_form(d, val);
+	}
 	else
 		ft_prepare_f(d, val);
 }
