@@ -68,13 +68,14 @@ void					ft_expo_form(t_data *d, long double val)
 {
 	const int	expo = ft_calc_expo(d, &val);
 	const int	expo_len = ft_count_dig(NULL, expo < 0 ? -expo : expo, 10);
-	const int	val_len = ft_count_double(val, 0);
+	int			val_len;
 
 	if (val != val || val == INFINITY)
 	{
 		ft_handle_nan(d, val);
 		return ;
 	}
+	val_len = ft_count_double(val, 0);
 	if (d->prec > 0 || d->fl.sharp)
 		d->width--;
 	if (d->fl.plus || d->fl.sign || d->fl.space)

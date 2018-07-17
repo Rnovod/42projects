@@ -74,9 +74,9 @@ void						ft_int(t_data *d, va_list *arg, int base)
 	const int		val_len = ft_count_dig(d, val, base);
 
 	if (d->fl.sign || d->fl.plus || d->fl.space ||
-		(d->fl.sharp == 1 && base == 8 && val_len > d->prec))
+		(d->fl.sharp == 1 && base == 8 && val_len > d->prec && val != 0))
 		d->width--;
-	else if ((base == 16 && d->fl.sharp == 1) || d->chr == 'p')
+	else if ((base == 16 && d->fl.sharp == 1 && val != 0) || d->chr == 'p')
 		d->width -= 2;
 	if (!d->fl.minus && !d->fl.zero)
 		ft_put_width(d, val_len);

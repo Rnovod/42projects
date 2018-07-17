@@ -16,8 +16,11 @@ int		ft_dprintf(const int fd, const char *restrict format, ...)
 {
 	va_list		arg;
 	int			done;
+	char		check[1];
 
 	if (!format)
+		return (-1);
+	if (read(fd, check, 0) < 0)
 		return (-1);
 	va_start(arg, format);
 	done = ft_vdprintf(fd, format, &arg);

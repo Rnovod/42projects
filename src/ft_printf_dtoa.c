@@ -50,7 +50,7 @@ inline	static	void	ft_pre_apo_point(t_data *d, long double *val,
 		dec_part *= base;
 		val_len++;
 	}
-	while (*val >= 1l)
+	while (*val >= 1l || val_len >= 0)
 	{
 		if (FT_PRINTF_BUFF_SIZE <= d->buff_i)
 			ft_print_buff(d);

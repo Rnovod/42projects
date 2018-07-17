@@ -63,15 +63,11 @@ EOC			=	"\033[0m"
 
 all: $(NAME)
 
-main : main.c
-	@$(CC) main.c libftprintf.a
-	@echo "compile with main"
-	@./a.out
-
 $(NAME): $(OBJ)
 	@ar rc $(NAME) $(OBJ)
 	@ranlib $(NAME)
 	@echo ${BG}"ft_printf is ready"${EOC}
+	
 $(OBJ): | $(OBJ_DIR)
 
 $(OBJ_DIR):

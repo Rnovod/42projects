@@ -14,7 +14,6 @@
 # define FT_PRINTF_H
 # define FT_PRINTF_BUFF_SIZE 4096
 # include <stdarg.h>
-# include <stdint.h>
 # include <wchar.h>
 # include <limits.h>
 # include <unistd.h>
@@ -83,12 +82,14 @@ typedef	struct	s_data
 }				t_data;
 
 int				ft_printf(const char *restrict format, ...);
-int				ft_vdprintf(const int fd, const char *restrict format, va_list *arg);
+int				ft_vdprintf(const int fd, const char *restrict format,
+				va_list *arg);
 int				ft_dprintf(const int fd, const char *restrict format, ...);
 
 const char		*ft_spec(t_data *d, const char *pos, va_list *arg);
 const char		*ft_color(t_data *d, const char *pos);
 
+void			ft_conv(t_data *d, char chr, va_list *arg);
 
 void			ft_print_buff(t_data *d);
 
@@ -96,33 +97,30 @@ void			ft_set_flags(t_data *d);
 
 int				ft_star(t_data *d, const char **pos, va_list *arg);
 
-void			ft_conv(t_data *d, char chr, va_list *arg);
-
 va_list			*ft_count_arg(t_data *d, int arg);
-
-void			ft_int(t_data *d, va_list *arg, int base);
 
 int				ft_count_dig(t_data *d, uintmax_t value, int base);
 int				ft_count_double(long double val, char apostr);
 
 void			ft_printf_itoa(t_data *d, uintmax_t value, int base, int len);
-void			ft_printf_apo_itoa(t_data *d, uintmax_t value, int base, int len);
+void			ft_printf_apo_itoa(t_data *d, uintmax_t value,
+				int base, int len);
 
 void			ft_put_width(t_data *d, int val_len);
 void			ft_put_prec(t_data *d, uintmax_t val, int len, int base);
 void			ft_put_sign(t_data *d, uintmax_t val, int base);
 
 void			ft_char(t_data *d, wchar_t value);
-
+void			ft_int(t_data *d, va_list *arg, int base);
 void			ft_string(t_data *d, char *value);
 void			ft_wstring(t_data *d, wchar_t *value);
-
 void			ft_write_chr(t_data *d, int *dest);
 
 void			ft_float(t_data *d, long double val);
 void			ft_expo_form(t_data *d, long double val);
 void			ft_g_float(t_data *d, long double val);
 void			ft_printf_dtoa(t_data *d, long double val, long double base);
+void			ft_a_float(t_data *d, long double val);
 
 void			ft_handle_nan(t_data *d, long double val);
 
@@ -134,13 +132,9 @@ long double		ft_get_float_val(t_data *d, va_list *arg);
 
 void			ft_nonprint_str(t_data *d, unsigned char *value);
 void			ft_nonprint_char(t_data *d, unsigned char value);
-
 void			ft_print_date(t_data *d);
-void			ft_change_fd(t_data *d, int fd);
 void			ft_two_dimensional_array(t_data *d, va_list *arg);
 
 int				ft_strlen(char *str);
-
-void			ft_a_float(t_data *d, long double val);
 
 #endif
