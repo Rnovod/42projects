@@ -29,7 +29,8 @@ inline	static	int		ft_count_prec(t_data *d, long double val)
 	return (len);
 }
 
-inline	static	int		ft_count_prec_sharp(long double val, int dec_len)
+inline	static	int		ft_count_prec_sharp(t_data *d,
+						long double val, int dec_len)
 {
 	int		len;
 	int		i;
@@ -41,7 +42,7 @@ inline	static	int		ft_count_prec_sharp(long double val, int dec_len)
 	if ((uintmax_t)val)
 		flag = 1;
 	val = (val - (uintmax_t)val) * 10.0l;
-	while (i < 6)
+	while (i < d->prec + dec_len)
 	{
 		if ((uintmax_t)val)
 			flag = 1;
@@ -81,17 +82,19 @@ inline	static	int		ft_check_prec(long double val)
 
 inline	static	void	ft_prepare_f(t_data *d, long double val)
 {
-	int		dec_len;
+	int			dec_len;
+	long double	tmp;
 
 	dec_len = ft_count_double(val, 0);
+	tmp = val + 0.5l * ft_ldpow(0.1l, d->prec + dec_len);
 	if ((uintmax_t)val)
 		d->prec -= dec_len;
 	else
 		dec_len = 0;
 	if (!d->fl.sharp)
-		d->prec = ft_count_prec(d, val + 0.5l * ft_ldpow(0.1l, d->prec));
+		d->prec = ft_count_prec(d, tmp);
 	else
-		d->prec = ft_count_prec_sharp(val, dec_len);
+		d->prec = ft_count_prec_sharp(d, val, dec_len);
 	if (d->prec == 0)
 		d->prec = ft_check_prec(val);
 	ft_float(d, val);
