@@ -14,7 +14,7 @@
 # define FT_PRINTF_H
 # define FT_PRINTF_BUFF_SIZE 4096
 # include <stdarg.h>
-# include <wchar.h>
+# include <stddef.h>
 # include <limits.h>
 # include <unistd.h>
 # include <locale.h>
@@ -62,7 +62,7 @@ typedef	struct	s_flags
 	unsigned int	apostr:1;
 	unsigned int	sign:1;
 	unsigned int	flt:1;
-	unsigned int	size:3;
+	unsigned int	size:4;
 }				t_flags;
 
 typedef	struct	s_data
@@ -114,7 +114,7 @@ void			ft_char(t_data *d, wchar_t value);
 void			ft_int(t_data *d, va_list *arg, int base);
 void			ft_string(t_data *d, char *value);
 void			ft_wstring(t_data *d, wchar_t *value);
-void			ft_write_chr(t_data *d, int *dest);
+void			ft_write_chr(t_data *d, va_list *arg);
 
 void			ft_float(t_data *d, long double val);
 void			ft_expo_form(t_data *d, long double val);

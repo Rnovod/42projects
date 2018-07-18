@@ -29,7 +29,7 @@ inline	static	void	ft_conv_anoth(t_data *d, char chr, va_list *arg)
 	else if (chr == 'o' || chr == 'O')
 		ft_int(d, arg, 8);
 	else if (chr == 'n')
-		ft_write_chr(d, va_arg(*arg, int*));
+		ft_write_chr(d, arg);
 	else if (chr == 'f' || chr == 'F')
 		ft_float(d, ft_get_float_val(d, arg));
 	else if (chr == 'e' || chr == 'E')
@@ -42,7 +42,7 @@ inline	static	void	ft_conv_anoth(t_data *d, char chr, va_list *arg)
 		ft_nonprint_char(d, (unsigned char)va_arg(*arg, int));
 	else if (chr == 'b')
 		ft_int(d, arg, 2);
-	else if (chr == 't')
+	else if (chr == 'k')
 		ft_print_date(d);
 	else
 		ft_extra_conv(d, chr, arg);

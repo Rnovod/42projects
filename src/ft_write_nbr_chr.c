@@ -12,8 +12,26 @@
 
 #include "./../inc/ft_printf.h"
 
-void		ft_write_chr(t_data *d, int *dest)
+void		ft_write_chr(t_data *d, va_list *arg)
 {
+	intmax_t		*dest;
+
+	if (d->fl.size == 0)
+		dest = (intmax_t*)va_arg(*arg, int*);
+	else if (d->fl.size == 1)
+		dest = (intmax_t*)va_arg(*arg, int*);
+	else if (d->fl.size == 2)
+		dest = (intmax_t*)va_arg(*arg, int*);
+	else if (d->fl.size == 3)
+		dest = (intmax_t*)va_arg(*arg, long int*);
+	else if (d->fl.size == 4)
+		dest = (intmax_t*)va_arg(*arg, long long int*);
+	else if (d->fl.size == 5)
+		dest = (intmax_t*)va_arg(*arg, intmax_t*);
+	else if (d->fl.size == 6)
+		dest = (intmax_t*)va_arg(*arg, ptrdiff_t*);
+	else
+		dest = (intmax_t*)va_arg(*arg, ssize_t*);
 	if (!dest)
 		return ;
 	*dest = d->buff_i + d->ret;

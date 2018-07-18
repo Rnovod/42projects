@@ -23,13 +23,15 @@ inline	static	uintmax_t	ft_get_sval(t_data *d, va_list *arg)
 	else if (d->fl.size == 2)
 		val = (short)va_arg(*arg, int);
 	else if (d->fl.size == 3)
-		val = (long)va_arg(*arg, intmax_t);
+		val = va_arg(*arg, long int);
 	else if (d->fl.size == 4)
-		val = (long long)va_arg(*arg, intmax_t);
+		val = va_arg(*arg, long long int);
 	else if (d->fl.size == 5)
-		val = (intmax_t)va_arg(*arg, intmax_t);
+		val = va_arg(*arg, intmax_t);
+	else if (d->fl.size == 6)
+		val = va_arg(*arg, ptrdiff_t);
 	else
-		val = (ssize_t)va_arg(*arg, intmax_t);
+		val = va_arg(*arg, ssize_t);
 	if (val < 0)
 	{
 		d->fl.sign = 1;
@@ -49,13 +51,15 @@ inline	static	uintmax_t	ft_get_uval(t_data *d, va_list *arg)
 	else if (d->fl.size == 2)
 		return ((unsigned short)va_arg(*arg, int));
 	else if (d->fl.size == 3)
-		return ((unsigned long)va_arg(*arg, uintmax_t));
+		return (va_arg(*arg, unsigned long));
 	else if (d->fl.size == 4)
-		return ((unsigned long long)va_arg(*arg, uintmax_t));
+		return (va_arg(*arg, unsigned long long));
 	else if (d->fl.size == 5)
-		return ((uintmax_t)va_arg(*arg, uintmax_t));
+		return (va_arg(*arg, uintmax_t));
+	else if (d->fl.size == 6)
+		return ((unsigned long)va_arg(*arg, ptrdiff_t));
 	else
-		return ((size_t)va_arg(*arg, uintmax_t));
+		return (va_arg(*arg, size_t));
 }
 
 inline	static	uintmax_t	ft_write_data(t_data *d, va_list *arg)
