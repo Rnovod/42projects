@@ -1,0 +1,38 @@
+#win {
+	background-repeat: no-repeat;
+	background-size: cover;
+	background-image: url("./../img/union.jpg");
+}
+
+button {
+	background-image: -gtk-gradient(linear,
+		left top,
+		left bottom,
+		from (#6100ed),
+		color-stop (0.5, darker (#6100ed)),
+		to (#000000));
+	color: white;
+	font: 42px "Luminari";
+}
+
+button:hover {
+	background-image: -gtk-gradient(linear,
+		left top,
+		left bottom,
+		from (#6100ed),
+		color-stop (0.5, darker (#6100ed)),
+		to (#ff0000));
+	color: red;
+	font: 42px "Luminari";
+}
+
+button:active {
+	background-image: -gtk-gradient(linear,
+		left top,
+		left bottom,
+		from (#6100ed),
+		color-stop (0.5, darker (#6100ed)),
+		to (#00ff00));
+	color: green;
+	font: 42px "Luminari";
+}
