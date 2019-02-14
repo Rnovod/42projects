@@ -15,6 +15,7 @@ NAME		=	libftprintf.a
 SRC			=	ft_printf.c \
 				ft_dprintf.c \
 				ft_vdprintf.c \
+				ft_fprintf.c \
 				ft_print_buff.c \
 				ft_spec.c \
 				ft_set_flags.c \

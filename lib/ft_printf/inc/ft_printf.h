@@ -86,6 +86,7 @@ int				ft_printf(const char *restrict format, ...);
 int				ft_vdprintf(const int fd, const char *restrict format,
 				va_list *arg);
 int				ft_dprintf(const int fd, const char *restrict format, ...);
+int				ft_fprintf(const char *file, const char *restrict format, ...);
 
 const char		*ft_spec(t_data_printf *d, const char *pos, va_list *arg);
 const char		*ft_color(t_data_printf *d, const char *pos);

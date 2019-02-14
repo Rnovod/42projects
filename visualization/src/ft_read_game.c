@@ -26,7 +26,8 @@ static inline void		ft_create_begin(t_visual_data *d)
 	ft_skip_piece(d, line);
 	if (get_next_line(0, &line) < 0)
 		ft_thread_error(d, -1);
-	if (!ft_strstr(line, "<got "))
+	if (ft_strncmp(line, "<got ", 5) &&
+		ft_strncmp(line, "Player with", 11))
 	{
 		free(line);
 		ft_thread_error(d, -4);
@@ -40,7 +41,7 @@ static inline void		ft_get_score(t_visual_data *d,
 	char	*cp;
 
 	cp = line;
-	if (!ft_strstr(line, "== O fin:") ||
+	if (ft_strncmp(line, "== O fin:", 9) ||
 		ft_getnbr(&cp, NULL) < 0)
 	{
 		free(line);
@@ -50,7 +51,7 @@ static inline void		ft_get_score(t_visual_data *d,
 	if (get_next_line(0, &line) < 0)
 		ft_thread_error(d, -1);
 	cp = line;
-	if (!ft_strstr(line, "== X fin:") ||
+	if (ft_strncmp(line, "== X fin:", 9) ||
 		ft_getnbr(&cp, NULL) < 0)
 	{
 		free(line);
@@ -84,13 +85,14 @@ static inline void		ft_read_data(t_visual_data *d)
 		pthread_setcancelstate(PTHREAD_CANCEL_DISABLE, NULL);
 		if (get_next_line(0, &line) < 0)
 			ft_thread_error(d, -1);
-		if (ft_strstr(line, "Plateau"))
+		if (!ft_strncmp(line, "Plateau ", 8))
 			ptr = ft_step(d, ptr, line);
-		else if (ft_strstr(line, "Piece"))
+		else if (!ft_strncmp(line, "Piece", 5))
 			ft_skip_piece(d, line);
-		else if (ft_strstr(line, "<got ") || ft_strstr(line, "Player with"))
+		else if (!ft_strncmp(line, "<got ", 5) ||
+			!ft_strncmp(line, "Player with", 11))
 			free(line);
-		else if (ft_strstr(line, "== O fin:"))
+		else if (!ft_strncmp(line, "== O fin:", 9))
 			ft_get_score(d, line, ptr);
 		else
 		{
