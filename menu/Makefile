@@ -63,7 +63,7 @@ $(LIBPRINTF):
 
 $(NAME): $(OBJ)
 	@$(CC) $(OBJ) -o $(NAME) $(GTK_FLAG_BIN) $(LIBS_FLAGS)
-	@echo ${BG}"interface is ready"${EOC}
+	@echo ${BG}"menu is ready"${EOC}
 
 $(OBJ): | $(OBJ_DIR)
 

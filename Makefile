@@ -14,7 +14,7 @@ NAME		=	rnovodra.filler
 
 VISUAL		=	$(VISUAL_DIR)visual
 
-INTERFACE	=	$(INTER_DIR)filler_menu
+MENU		=	$(MENU_DIR)filler_menu
 
 SRC			=	main.c \
 				ft_map.c \
@@ -34,7 +34,7 @@ LIB_DIR		=	./lib/
 
 VISUAL_DIR	=	./visualization/
 
-INTER_DIR	=	./interface/
+MENU_DIR	=	./menu/
 
 LIBFT_DIR	=	$(LIB_DIR)libft/
 
@@ -61,10 +61,10 @@ BG			=	"\033[32;1m"
 BR			=	"\033[31;1m"
 EOC			=	"\033[0m"
 
-all: $(LIBFT) $(INTERFACE) $(VISUAL) $(NAME)
+all: $(LIBFT) $(MENU) $(VISUAL) $(NAME)
 
-$(INTERFACE):
-	@make -C $(INTER_DIR)
+$(MENU):
+	@make -C $(MENU_DIR)
 
 $(VISUAL):
 	@make -C $(VISUAL_DIR)
@@ -92,7 +92,7 @@ clean:
 	@make clean -C $(PRINTF_DIR)
 	@make clean -C $(LIBFT_DIR)
 	@make clean -C $(VISUAL_DIR)
-	@make clean -C $(INTER_DIR)
+	@make clean -C $(MENU_DIR)
 	@rm -rf $(OBJ)
 	@echo ${BR}"[✗] clean"
 
@@ -100,7 +100,7 @@ fclean: clean
 	@make fclean -C $(PRINTF_DIR)
 	@make fclean -C $(LIBFT_DIR)
 	@make fclean -C $(VISUAL_DIR)
-	@make fclean -C $(INTER_DIR)
+	@make fclean -C $(MENU_DIR)
 	@rm -rf $(NAME)
 	@rm -rf $(OBJ_DIR)
 	@echo ${BR}"[✗] $(NAME)"
